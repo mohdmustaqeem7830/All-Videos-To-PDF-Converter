@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "613319995794",
+    "project_id": "all-videos-to-pdf-converter",
+    "storage_bucket": "all-videos-to-pdf-converter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613319995794:android:290f4c927b13ad4925914b",
+        "android_client_info": {
+          "package_name": "com.example.allvideostopdfconverter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHpe5yhk2wW9UVhVmrH_KL8uNxeOyw1dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

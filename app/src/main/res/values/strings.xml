@@ -1,0 +1,92 @@
+<resources>
+    <string name="app_name">All Videos To PDF converter</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_splash">splash</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="videostopdf">
+        Step 1 :- Select video/Multiple Videos /Entire playlist \n\n
+        Step 2 :- Select Quality ,Low Quality will give 10 percent of the quality of videos you have selected,
+                  High Quality will give 100 percent of the quality of videos you have selected \n\n
+        Step 3 :- Ater process, it will saved into Saved PDF section in the appliction \n\n
+        Step 4 :- Open the Saved Section of the appliction given in the bottom bar and Open the uppermost PDF \n\n
+        You have successfully created your notes within in a minute
+    </string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+    <string name="title_activity_start">start</string>
+    <string name="introduction">
+Certainly, the "All Videos to PDF Converter" app seems to be a convenient tool for converting video content into PDF notes. It can capture screenshots at specific intervals of time from video content, which can then be compiled into a PDF document. This can be quite useful for students or individuals
+        who do not have the time to make notes during meetings, conferences,JEE/NEET/Any other competitive exam
+        or while watching educational videos
+     </string>
+    <string name="introduction2">The app able to create PDF notes from a complete course playlist or downloaded videos is particularly beneficial, as it no need to making-note process and helps students prepare for exams more efficiently.</string>
+    <string name="introduction3">Absolutely, the feature of capturing screenshots at selected intervals and compiling them into a PDF is a smart way to understand the step-by-step process. This not only provides a structured and organized set of notes but also allows for a sequential understanding of the entire process.</string>
+    <string name="Rename">
+        Step 1 :- Open the Saved PDF section in the given bottom bar of the application\n\n
+        Step 2 :- Long pressed on the PDF, which you want to Rename \n\n
+        Step 3 :- Rename button will appear on the Top-right corner simply clicked it\n\n
+        Step 4 :- Enter the name in the edit box\n\n
+        Step 5 :- Click on Save button\n\n
+
+    </string>
+    <string name="Delete">
+        Step 1 :- Open the Saved PDF section in the given bottom bar of the application\n\n
+        Step 2 :- Long pressed on the PDF, which you want to Delete \n\n
+        Step 3 :- Delete button will appear on the Top-right corner simply clicked it\n\n
+        Step 4 :- Dialogue box will appear to confirmation\n\n
+        Step 5 :- Click on Yes button\n\n
+    </string>
+    <string name="Merge">
+        Step 1 :- Simply click on the Merge PDF button given in the Edit section of bottoom bar \n\n
+        Step 2 :- Select PDF from the Storage in a sequence\n\n
+        Step 3 :- Merge PDF saved into saved section in the application ater some process\n\n
+    </string>
+    <string name="Imagetopdf">
+        Step 1 :- Simply click on the Image To PDF button given in the Edit section of bottoom bar \n\n
+        Step 2 :- Select Images from the Gallery in a sequence\n\n
+        Step 3 :- Image to PDF saved into saved section in the application after some process\n\n
+    </string>
+    <string name="contact">
+        Thanks for offering! If You ever come across any issues or have any suggestions for improvement while
+        using the app, I will make sure to reach out.contact us on given gmail, and I appreciate your proactive approach to addressing concerns.\n\n Click here for contact</string>
+</resources>
