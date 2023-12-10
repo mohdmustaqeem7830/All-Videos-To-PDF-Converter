@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.allvideostopdfconverter.Fragment.HomeFragment"
+        android:name="com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/editFragment"
-        android:name="com.example.allvideostopdfconverter.Fragment.EditFragment"
+        android:name="com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.EditFragment"
         android:label="fragment_edit"
         tools:layout="@layout/fragment_edit" >
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/savedFragment"
-        android:name="com.example.allvideostopdfconverter.Fragment.SavedFragment"
+        android:name="com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.SavedFragment"
         android:label="fragment_saved"
         tools:layout="@layout/fragment_saved" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
-        android:name="com.example.allvideostopdfconverter.Fragment.HelpFragment"
+        android:name="com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.HelpFragment"
         android:label="fragment_help"
         tools:layout="@layout/fragment_help" >
         <action

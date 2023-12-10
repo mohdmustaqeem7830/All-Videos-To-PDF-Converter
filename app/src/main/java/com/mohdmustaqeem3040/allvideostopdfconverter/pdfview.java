@@ -1,31 +1,22 @@
-package com.example.allvideostopdfconverter;
+package com.mohdmustaqeem3040.allvideostopdfconverter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 
 import java.io.File;
 
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import android.view.Window;
-import android.view.WindowManager;
-import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
 
 import android.widget.TextView;
-import java.io.File;
 
 public class pdfview extends AppCompatActivity {
     PDFView pdfView;

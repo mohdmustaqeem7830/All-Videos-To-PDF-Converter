@@ -4,18 +4,18 @@ plugins {
 }
 
 android {
-    namespace 'com.example.allvideostopdfconverter'
+    namespace 'com.mohdmustaqeem3040.allvideostopdfconverter'
     compileSdk 33
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }
 
     defaultConfig {
-        applicationId "com.example.allvideostopdfconverter"
-        minSdk 25
+        applicationId "com.mohdmustaqeem3040.allvideostopdfconverter"
+        minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

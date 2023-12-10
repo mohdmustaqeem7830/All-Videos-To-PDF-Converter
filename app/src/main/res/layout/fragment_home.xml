@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".Fragment.HomeFragment">
+    tools:context="com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.HomeFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -74,12 +74,14 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/layer"
             android:layout_margin="3dp"
             android:orientation="horizontal">
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"

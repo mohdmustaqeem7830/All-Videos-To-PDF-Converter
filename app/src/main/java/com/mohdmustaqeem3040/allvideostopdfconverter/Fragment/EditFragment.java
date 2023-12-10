@@ -1,17 +1,16 @@
-package com.example.allvideostopdfconverter.Fragment;
+package com.mohdmustaqeem3040.allvideostopdfconverter.Fragment;
 
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.pdf.PdfDocument;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
@@ -20,13 +19,11 @@ import android.net.Uri;
 import android.Manifest;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.DisplayMetrics;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +32,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.allvideostopdfconverter.R;
-import com.example.allvideostopdfconverter.pdfview;
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
+import com.mohdmustaqeem3040.allvideostopdfconverter.pdfview;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -48,22 +46,12 @@ import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 //import com.itextpdf.kernel.pdf.canvas.parser.PdfCanvasProcessor;
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfCopy;
-import com.itextpdf.text.pdf.PdfFormXObject;
-import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfSmartCopy;
-import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.ByteArrayOutputStream;
@@ -81,8 +69,10 @@ import java.util.Locale;
 public class EditFragment<BufferedImage> extends Fragment {
     private static final int PICK_PDF_REQUEST = 1;
     private static final int PICK_PDF = 20;
-
+    private static final int STORAGE_PERMISSION_REQUEST_CODE = 233;
     TextView test,textedit;
+    AlertDialog dialognew;
+    private static final int MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE = 100;
     File open;
     private static final int PICK_IMAGES_REQUEST = 2;
     private static final int REQUEST_CODE = 100;
@@ -161,98 +151,137 @@ public class EditFragment<BufferedImage> extends Fragment {
         progressBar = dialog.findViewById(R.id.progressloading);
         dialogtext = dialog.findViewById(R.id.custometext);
         dialog.setCancelable(false);
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-        }
         mergeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show((Activity) requireContext());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (Environment.isExternalStorageManager()) {
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show((Activity) requireContext());
 
-                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                        @Override
-                        public void onAdClicked() {
-                            super.onAdClicked();
-                        }
+                            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                                @Override
+                                public void onAdClicked() {
+                                    super.onAdClicked();
+                                }
 
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
+                                @Override
+                                public void onAdDismissedFullScreenContent() {
 //                              super.onAdDismissedFullScreenContent();
+                                    openPdfPicker();
+                                    loadaAd();
+                                }
+                            });
+                        }
+                        else {
                             openPdfPicker();
-                            loadaAd();
                         }
 
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                            super.onAdFailedToShowFullScreenContent(adError);
-                            mInterstitialAd = null;
+                    } else {
+                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
+
+                    }
+                } else {
+
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        // You don't have storage permission, so request it.
+                        ActivityCompat.requestPermissions(requireActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
+                    }else{
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show((Activity) requireContext());
+
+                            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                                @Override
+                                public void onAdClicked() {
+                                    super.onAdClicked();
+                                }
+
+                                @Override
+                                public void onAdDismissedFullScreenContent() {
+//                              super.onAdDismissedFullScreenContent();
+                                    openPdfPicker();
+                                    loadaAd();
+                                }
+                            });
+                        }
+                        else {
+                            openPdfPicker();
                         }
 
-                        @Override
-                        public void onAdImpression() {
-                            // Called when an impression is recorded for an ad.
-                            Log.d(TAG, "Ad recorded an impression.");
-                        }
+                    }
 
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            // Called when ad is shown.
-                            Log.d(TAG, "Ad showed fullscreen content.");
-                        }
-                    });
                 }
-                else {
-                    openPdfPicker();
-                }
+
+
             }
         });
 
         imagebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mInterstitialAd != null) {
-                    mInterstitialAd.show((Activity) requireContext());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (Environment.isExternalStorageManager()) {
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show((Activity) requireContext());
 
-                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                        @Override
-                        public void onAdClicked() {
-                            super.onAdClicked();
-                        }
+                            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                                @Override
+                                public void onAdClicked() {
+                                    super.onAdClicked();
+                                }
 
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
+                                @Override
+                                public void onAdDismissedFullScreenContent() {
 //                              super.onAdDismissedFullScreenContent();
+                                    openimagepicker();
+                                    loadaAd();
+                                }
+                            });
+                        }
+                        else {
                             openimagepicker();
-                            loadaAd();
                         }
 
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                            super.onAdFailedToShowFullScreenContent(adError);
-                            mInterstitialAd = null;
+                    } else {
+                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
+
+                    }
+                } else {
+
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        // You don't have storage permission, so request it.
+                        ActivityCompat.requestPermissions(requireActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
+                    }else{
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show((Activity) requireContext());
+
+                            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                                @Override
+                                public void onAdClicked() {
+                                    super.onAdClicked();
+                                }
+
+                                @Override
+                                public void onAdDismissedFullScreenContent() {
+//                              super.onAdDismissedFullScreenContent();
+                                    openimagepicker();
+                                    loadaAd();
+                                }
+                            });
+                        }
+                        else {
+                               openimagepicker();
                         }
 
-                        @Override
-                        public void onAdImpression() {
-                            // Called when an impression is recorded for an ad.
-                            Log.d(TAG, "Ad recorded an impression.");
-                        }
+                    }
 
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            // Called when ad is shown.
-                            Log.d(TAG, "Ad showed fullscreen content.");
-                        }
-                    });
                 }
-                else {
-                    openimagepicker();
-                }
+
             }
         });
 
@@ -522,6 +551,26 @@ public class EditFragment<BufferedImage> extends Fragment {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("application/pdf");
         startActivityForResult(intent, PICK_PDF);
+    }
+
+    private void showPermissionFinal(String title, String message) {
+        dialognew = new AlertDialog.Builder(requireContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Grant access", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        intent.setData(Uri.parse("package:" + requireContext().getPackageName()));
+                        startActivityForResult(intent, MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE);
+
+                        // Dismiss the dialog after positive button click
+                        dialognew.dismiss();
+                    }
+                })
+                .create();
+        dialognew.show();
+
     }
 
 }

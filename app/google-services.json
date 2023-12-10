@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "613319995794",
-    "project_id": "all-videos-to-pdf-converter",
-    "storage_bucket": "all-videos-to-pdf-converter.appspot.com"
+    "project_number": "325846626498",
+    "project_id": "all-videos-to-pdf-conver-c1f25",
+    "storage_bucket": "all-videos-to-pdf-conver-c1f25.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:613319995794:android:290f4c927b13ad4925914b",
+        "mobilesdk_app_id": "1:325846626498:android:5752c91c419ca9d52b4b5b",
         "android_client_info": {
           "package_name": "com.example.allvideostopdfconverter"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAHpe5yhk2wW9UVhVmrH_KL8uNxeOyw1dE"
+          "current_key": "AIzaSyBd-_fDaoRz7Q2LCDM50BUKFJDvOZvjkCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325846626498:android:466d8264e00607492b4b5b",
+        "android_client_info": {
+          "package_name": "com.mohdmustaqeem3040.allvideostopdfconverter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd-_fDaoRz7Q2LCDM50BUKFJDvOZvjkCA"
         }
       ],
       "services": {

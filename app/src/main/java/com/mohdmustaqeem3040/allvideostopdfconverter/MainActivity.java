@@ -1,50 +1,30 @@
-package com.example.allvideostopdfconverter;
+package com.mohdmustaqeem3040.allvideostopdfconverter;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.IntentSender;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.example.allvideostopdfconverter.Fragment.EditFragment;
-import com.example.allvideostopdfconverter.Fragment.HelpFragment;
-import com.example.allvideostopdfconverter.Fragment.HomeFragment;
-import com.example.allvideostopdfconverter.Fragment.SavedFragment;
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
+import com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.EditFragment;
+import com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.HelpFragment;
+import com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.HomeFragment;
+import com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.SavedFragment;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
@@ -84,38 +64,44 @@ public class MainActivity extends AppCompatActivity {
         bottomBar = findViewById(R.id.bottomBar);
 
         //by default smoothbar at home
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, new HomeFragment());
-        fragmentTransaction.commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        HomeFragment homeFragment = (HomeFragment) fragmentManager.findFragmentByTag("HomeFragment");
+//        if (homeFragment == null) {
+//            // If not added, add it
+//            homeFragment = new HomeFragment();
+//            fragmentTransaction.replace(R.id.fragmentContainer, homeFragment, "HomeFragment");
+//        }
+//        fragmentTransaction.commit();
         bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public boolean onItemSelect(int i) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                // Use findFragmentByTag to check if the fragment is already added
+                HomeFragment homeFragment = (HomeFragment) fragmentManager.findFragmentByTag("HomeFragment");
+
+
                 if (i == 0) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, new HomeFragment());
-                    fragmentTransaction.commit();
+                    // If not added, add HomeFragment
+                    if (homeFragment == null) {
+                        homeFragment = new HomeFragment();
+                        fragmentTransaction.replace(R.id.fragmentContainer, homeFragment, "HomeFragment");
+                    }
                 }
-                if (i == 1) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                else if (i == 1) {
                     fragmentTransaction.replace(R.id.fragmentContainer, new EditFragment());
-                    fragmentTransaction.commit();
+                }
+                else if (i == 2) {
+                    fragmentTransaction.replace(R.id.fragmentContainer, new SavedFragment());
 
                 }
-                if (i == 2) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, new SavedFragment());
-                    fragmentTransaction.commit();
-                }
-                if (i == 3) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                else if (i == 3) {
                     fragmentTransaction.replace(R.id.fragmentContainer, new HelpFragment());
-                    fragmentTransaction.commit();
+
                 }
+                fragmentTransaction.commit();
                 return false;
             }
         });
@@ -146,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
         showDialog();
 
     }
+
+
 
     private Handler handler = new Handler();
     private Runnable periodicTask = new Runnable() {
