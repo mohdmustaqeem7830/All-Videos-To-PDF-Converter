@@ -1,10 +1,11 @@
-package com.example.allvideostopdfconverter.Fragment;
+package com.mohdmustaqeem3040.allvideostopdfconverter.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -12,8 +13,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,11 +27,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.allvideostopdfconverter.MainActivity;
-import com.example.allvideostopdfconverter.PdfGenerator;
-import com.example.allvideostopdfconverter.R;
-import com.example.allvideostopdfconverter.RealPathUtil;
-import com.example.allvideostopdfconverter.pdfview;
+import com.mohdmustaqeem3040.allvideostopdfconverter.MainActivity;
+import com.mohdmustaqeem3040.allvideostopdfconverter.PdfGenerator;
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
+import com.mohdmustaqeem3040.allvideostopdfconverter.RealPathUtil;
+import com.mohdmustaqeem3040.allvideostopdfconverter.pdfview;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -45,7 +44,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
-import com.google.android.gms.ads.rewarded.ServerSideVerificationOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -57,6 +55,7 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.itextpdf.text.Image;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -99,6 +98,7 @@ public class HomeFragment extends Fragment {
     String type = "0";
     int quality = 25 ;
     private Dialog qualityDialog;
+    private AlertDialog dialognew;
     int REQUEST_CODE =100;
     private MediaMetadataRetriever retriever;
     private Handler handler = new Handler();
@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment {
     private Runnable frameCaptureRunnable;
     private List<File> capturedFrames = new ArrayList<>();
     private int currentFrameIndex = 0;
-
+    private static final int MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE = 100;
 
     private boolean capturingFrames = true;
     private long duration;
@@ -125,6 +125,7 @@ public class HomeFragment extends Fragment {
     private static final int MYREQUESTCODE=21;
     File open;
     private InterstitialAd mInterstitialAd;
+    AlertDialog alertDialog;
     @SuppressLint("MissingInflatedId")
 
 
@@ -144,6 +145,7 @@ public class HomeFragment extends Fragment {
         loadaAd();
          //update
         checkupdate();
+
 
         //admob id
 
@@ -169,13 +171,6 @@ public class HomeFragment extends Fragment {
                 super.onAdFailedToLoad(adError);
                 mAdView.loadAd(adRequest);
             }
-
-            @Override
-            public void onAdImpression() {
-                // Code to be executed when an impression is recorded
-                // for an ad.
-            }
-
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
@@ -209,52 +204,7 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // Android 11 and above
-            if (Environment.isExternalStorageManager()) {
-                // External storage permission granted
-
-                // Check if you have internet permission
-                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    // You don't have internet permission, so request it.
-                    ActivityCompat.requestPermissions(requireActivity(),
-                            new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
-                }
-
-                // Add any additional permissions as needed for Android 11 and above
-
-            } else {
-                // External storage permission not granted, request it for Android 11 and above
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.setData(Uri.parse("package:" + requireContext().getPackageName()));
-                startActivity(intent);
-            }
-        } else {
-              texthome.setTextSize(20);
-              texthome.setText("All Videos To PDF Converter");
-              cardView2.setPadding(3,3,3,3);
-            // Android 10 and below
-            // Traditional storage permission request
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // You don't have storage permission, so request it.
-                ActivityCompat.requestPermissions(requireActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-            }
-
-            // Check if you have internet permission
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // You don't have internet permission, so request it.
-                ActivityCompat.requestPermissions(requireActivity(),
-                        new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
-            }
-
-            // Add any additional permissions as needed for Android 10 and below
-        }
-
+        permissioncheck();
         //custom Toast code
 
 // Create and show the toast with the custom layout
@@ -339,8 +289,30 @@ public class HomeFragment extends Fragment {
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 type = "1";
-                showRenameDialog();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (Environment.isExternalStorageManager()) {
+                        showRenameDialog();
+                    } else {
+                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
+
+                    }
+                } else {
+
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        // You don't have storage permission, so request it.
+                        ActivityCompat.requestPermissions(requireActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
+                    }else{
+                        showRenameDialog();
+                    }
+
+                }
             }
 
 
@@ -349,14 +321,33 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 type = "2";
-                showRenameDialog();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (Environment.isExternalStorageManager()) {
+                        showRenameDialog();
+                    } else {
+                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
+
+                    }
+                } else {
+
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        // You don't have storage permission, so request it.
+                        ActivityCompat.requestPermissions(requireActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
+                    }else{
+                        showRenameDialog();
+                    }
+
+                }
             }
         });
         return view;
     }
-
     private void selectVideo() {
         customtext.setText("Creating PDF");
+        permissioncheck();
 
         dialog.show();
         qualityDialog.dismiss();
@@ -372,6 +363,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void multipleSelectVideo() {
+
+        permissioncheck();
 
         customtext.setText("It will take some time \nLet's take a coffee break \n Don't pressed back or exit button");
         dialog.show();
@@ -448,10 +441,6 @@ public class HomeFragment extends Fragment {
         else{
             dialog.dismiss();
         }
-        if (requestCode == REQUEST && resultCode == RESULT_OK) {
-
-        }
-
 
     }
 
@@ -521,6 +510,7 @@ public class HomeFragment extends Fragment {
             frames.clear(); // Clear the frames list
         }
     }
+    //quality box
     private void showRenameDialog() {
         qualityDialog.setContentView(R.layout.qualitypdf);
         qualityDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -565,18 +555,6 @@ public class HomeFragment extends Fragment {
                                     super.onAdFailedToShowFullScreenContent(adError);
                                     mInterstitialAd = null;
                                 }
-
-                                @Override
-                                public void onAdImpression() {
-                                    // Called when an impression is recorded for an ad.
-                                    Log.d(TAG, "Ad recorded an impression.");
-                                }
-
-                                @Override
-                                public void onAdShowedFullScreenContent() {
-                                    // Called when ad is shown.
-                                    Log.d(TAG, "Ad showed fullscreen content.");
-                                }
                             });
                         }else{
                             selectVideo();
@@ -606,17 +584,6 @@ public class HomeFragment extends Fragment {
                                     mInterstitialAd = null;
                                 }
 
-                                @Override
-                                public void onAdImpression() {
-                                    // Called when an impression is recorded for an ad.
-                                    Log.d(TAG, "Ad recorded an impression.");
-                                }
-
-                                @Override
-                                public void onAdShowedFullScreenContent() {
-                                    // Called when ad is shown.
-                                    Log.d(TAG, "Ad showed fullscreen content.");
-                                }
                             });
                         }
                         else {
@@ -669,12 +636,6 @@ public class HomeFragment extends Fragment {
                                 @Override
                                 public void onAdImpression() {
                                 super.onAdImpression();
-                                loadreward();
-                                }
-
-                                @Override
-                                public void onAdShowedFullScreenContent() {
-
                                 }
                             });
                         }
@@ -710,21 +671,8 @@ public class HomeFragment extends Fragment {
                                 @Override
                                 public void onAdFailedToShowFullScreenContent(AdError adError) {
                                     super.onAdFailedToShowFullScreenContent(adError);
-                                    loadaAd();
                                     startActivity(new Intent(activityContext, MainActivity.class));
                                     Toast.makeText(activityContext, "Poor Internet Connection", Toast.LENGTH_SHORT).show();
-                                }
-
-
-                                @Override
-                                public void onAdImpression() {
-                                   super.onAdImpression();
-                                }
-
-                                @Override
-                                public void onAdShowedFullScreenContent() {
-                                    super.onAdShowedFullScreenContent();
-
                                 }
                             });
                         } else {
@@ -810,13 +758,11 @@ public class HomeFragment extends Fragment {
                         // The mInterstitialAd reference will be null until
                         // an ad is loaded.
                         mInterstitialAd = interstitialAd;
-                        Log.i(TAG, "onAdLoaded");
                     }
 
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
-                        Log.d(TAG, loadAdError.toString());
+
                         mInterstitialAd = null;
                     }
                 });
@@ -934,4 +880,100 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
+    private  void permissioncheck(){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Android 11 and above
+            if (Environment.isExternalStorageManager()) {
+                // External storage permission granted
+
+
+                // Check if you have internet permission
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    // You don't have internet permission, so request it.
+                    ActivityCompat.requestPermissions(requireActivity(),
+                            new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
+                }
+
+                // Add any additional permissions as needed for Android 11 and above
+
+            } else {
+                // External storage permission not granted, request it for Android 11 and above
+
+                showPermissionExplanationDialog("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
+
+            }
+        } else {
+            texthome.setTextSize(20);
+            texthome.setText("All Videos To PDF Converter");
+            cardView2.setPadding(3,3,3,3);
+            // Android 10 and below
+            // Traditional storage permission request
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // You don't have storage permission, so request it.
+                ActivityCompat.requestPermissions(requireActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
+            }
+
+            // Check if you have internet permission
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // You don't have internet permission, so request it.
+                ActivityCompat.requestPermissions(requireActivity(),
+                        new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
+            }
+
+            // Add any additional permissions as needed for Android 10 and below
+        }
+
+    }
+    private void showPermissionExplanationDialog(String title, String message) {
+    dialognew = new AlertDialog.Builder(requireContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Grant access", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        intent.setData(Uri.parse("package:" + requireContext().getPackageName()));
+                        startActivityForResult(intent, MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE);
+
+                        // Dismiss the dialog after positive button click
+                        dialognew.dismiss();
+                    }
+                })
+                .setNegativeButton("Not now", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked "Not now" button
+                        // You can add any further actions here if needed
+                    }
+                })
+                .create();
+        dialognew.show();
+
+    }    private void showPermissionFinal(String title, String message) {
+    dialognew = new AlertDialog.Builder(requireContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Grant access", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        intent.setData(Uri.parse("package:" + requireContext().getPackageName()));
+                        startActivityForResult(intent, MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE);
+
+                        // Dismiss the dialog after positive button click
+                        dialognew.dismiss();
+                    }
+                })
+                .create();
+        dialognew.show();
+
+    }
+
+
 }

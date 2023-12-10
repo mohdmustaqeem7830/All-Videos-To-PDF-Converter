@@ -8,6 +8,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="permission">"Grant file access permission to All Videos to PDF Converter for opening and saving converted videos to PDF/Merge PDF/Image to PDF files in storage."</string>
     <string name="videostopdf">
         Step 1 :- Select video/Multiple Videos /Entire playlist \n\n
         Step 2 :- Select Quality ,Low Quality will give 10 percent of the quality of videos you have selected,

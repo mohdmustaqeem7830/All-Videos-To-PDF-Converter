@@ -1,7 +1,6 @@
-package com.example.allvideostopdfconverter.Fragment;
+package com.mohdmustaqeem3040.allvideostopdfconverter.Fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +8,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.allvideostopdfconverter.PdfAdapter;
-import com.example.allvideostopdfconverter.R;
-import com.example.allvideostopdfconverter.pdfview;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
+import com.mohdmustaqeem3040.allvideostopdfconverter.PdfAdapter;
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
+import com.mohdmustaqeem3040.allvideostopdfconverter.pdfview;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
+
 import android.os.Environment;
 import android.widget.Button;
 import android.widget.LinearLayout;

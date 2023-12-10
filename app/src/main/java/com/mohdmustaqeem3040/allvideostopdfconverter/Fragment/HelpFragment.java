@@ -1,4 +1,4 @@
-package com.example.allvideostopdfconverter.Fragment;
+package com.mohdmustaqeem3040.allvideostopdfconverter.Fragment;
 
 import android.os.Bundle;
 
@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.allvideostopdfconverter.R;
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
 
 public class HelpFragment extends Fragment {
 

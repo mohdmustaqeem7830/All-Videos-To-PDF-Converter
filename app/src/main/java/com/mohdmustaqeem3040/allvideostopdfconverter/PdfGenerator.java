@@ -1,17 +1,12 @@
-package com.example.allvideostopdfconverter;
+package com.mohdmustaqeem3040.allvideostopdfconverter;
 
 //import static androidx.core.graphics.drawable.IconCompat.getResources;
 
 //import static androidx.appcompat.graphics.drawable.DrawableContainerCompat.Api21Impl.getResources;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 
-import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
@@ -20,8 +15,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 public class PdfGenerator {

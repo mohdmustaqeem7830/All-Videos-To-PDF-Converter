@@ -1,37 +1,31 @@
-package com.example.allvideostopdfconverter;
+package com.mohdmustaqeem3040.allvideostopdfconverter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
+
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.PdfViewHolder> {
     private static ArrayList<File> pdfFiles;
