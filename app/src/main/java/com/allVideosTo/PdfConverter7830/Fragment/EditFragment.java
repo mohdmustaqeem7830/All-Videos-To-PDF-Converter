@@ -1,4 +1,4 @@
-package com.mohdmustaqeem3040.allvideostopdfconverter.Fragment;
+package com.allVideosTo.PdfConverter7830.Fragment;
 
 import static android.content.ContentValues.TAG;
 
@@ -35,9 +35,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.mohdmustaqeem3040.allvideostopdfconverter.R;
-import com.mohdmustaqeem3040.allvideostopdfconverter.pdfview;
-import com.google.android.gms.ads.AdError;
+import com.allVideosTo.PdfConverter7830.R;
+import com.allVideosTo.PdfConverter7830.pdfview;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -45,7 +44,6 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-//import com.itextpdf.kernel.pdf.canvas.parser.PdfCanvasProcessor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -179,7 +177,7 @@ public class EditFragment<BufferedImage> extends Fragment {
                         }
 
                     } else {
-                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
+                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for access videos,image,pdf to convert into PDF files");
 
                     }
                 } else {

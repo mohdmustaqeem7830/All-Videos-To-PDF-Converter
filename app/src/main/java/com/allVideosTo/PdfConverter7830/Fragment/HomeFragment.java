@@ -1,7 +1,6 @@
-package com.mohdmustaqeem3040.allvideostopdfconverter.Fragment;
+package com.allVideosTo.PdfConverter7830.Fragment;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,16 +21,15 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mohdmustaqeem3040.allvideostopdfconverter.MainActivity;
-import com.mohdmustaqeem3040.allvideostopdfconverter.PdfGenerator;
-import com.mohdmustaqeem3040.allvideostopdfconverter.R;
-import com.mohdmustaqeem3040.allvideostopdfconverter.RealPathUtil;
-import com.mohdmustaqeem3040.allvideostopdfconverter.pdfview;
+import com.allVideosTo.PdfConverter7830.MainActivity;
+import com.allVideosTo.PdfConverter7830.PdfGenerator;
+import com.allVideosTo.PdfConverter7830.R;
+import com.allVideosTo.PdfConverter7830.RealPathUtil;
+import com.allVideosTo.PdfConverter7830.pdfview;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -77,6 +75,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -87,19 +86,21 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
 import android.Manifest;
+
 public class HomeFragment extends Fragment {
-    private static final int INTERNET_PERMISSION_REQUEST_CODE =123;
+    private static final int INTERNET_PERMISSION_REQUEST_CODE = 123;
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 233;
-    private static final int REQUEST =121 ;
+    private static final int REQUEST = 121;
     //    Button selectbtn,multiple;
-    CardView select,multiple,cardView2;
+    CardView select, multiple, cardView2;
     TextView tester;
     String type = "0";
-    int quality = 25 ;
+    int quality = 25;
     private Dialog qualityDialog;
     private AlertDialog dialognew;
-    int REQUEST_CODE =100;
+    int REQUEST_CODE = 100;
     private MediaMetadataRetriever retriever;
     private Handler handler = new Handler();
     private long frameCaptureInterval = 10000; // 10 seconds in milliseconds
@@ -112,7 +113,7 @@ public class HomeFragment extends Fragment {
     private long duration;
     private long lastCaptureTime = 0;
     Dialog dialog;
-    TextView text,texthome;
+    TextView text, texthome;
     Toast toast;
     ProgressBar progressBar;
     List<Uri> selectedVideos;
@@ -122,10 +123,11 @@ public class HomeFragment extends Fragment {
     AppUpdateManager appUpdateManager;
     TextView customtext;
     private RewardedAd rewardedAd;
-    private static final int MYREQUESTCODE=21;
+    private static final int MYREQUESTCODE = 21;
     File open;
     private InterstitialAd mInterstitialAd;
     AlertDialog alertDialog;
+
     @SuppressLint("MissingInflatedId")
 
 
@@ -138,12 +140,17 @@ public class HomeFragment extends Fragment {
         select = view.findViewById(R.id.select);
         tester = view.findViewById(R.id.tester);
         cardView2 = view.findViewById(R.id.cardView);
+        texthome = view.findViewById(R.id.texthome);
         multiple = view.findViewById(R.id.multiple);
         qualityDialog = new Dialog(requireContext());
-        texthome = view.findViewById(R.id.texthome);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            texthome.setTextSize(20);
+            texthome.setText("All Videos To PDF Converter");
+        }
+
         loadreward();
         loadaAd();
-         //update
+        //update
         checkupdate();
 
 
@@ -161,8 +168,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
+              super.onAdClosed();
             }
 
             @Override
@@ -171,6 +177,7 @@ public class HomeFragment extends Fragment {
                 super.onAdFailedToLoad(adError);
                 mAdView.loadAd(adRequest);
             }
+
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
@@ -190,7 +197,7 @@ public class HomeFragment extends Fragment {
         //Dialog box code
         timeIntervalSpinner = view.findViewById(R.id.timeIntervalSpinner);
 
-        dialog =new Dialog(requireContext());
+        dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.progressbar);
         progressBar = dialog.findViewById(R.id.progressloading);
         customtext = dialog.findViewById(R.id.custometext);
@@ -204,7 +211,7 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        permissioncheck();
+//        permissioncheck();
         //custom Toast code
 
 // Create and show the toast with the custom layout
@@ -217,7 +224,7 @@ public class HomeFragment extends Fragment {
         text = layout.findViewById(R.id.toast_text);
 
 
-        list= new ArrayList<>();
+        list = new ArrayList<>();
         list.add("Select Time Interval");
         list.add("1    Second");
         list.add("2    Second");
@@ -229,7 +236,7 @@ public class HomeFragment extends Fragment {
         list.add("2    minute");
         list.add("5    minute");
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(),R.layout.textview,list);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.textview, list);
         timeIntervalSpinner.setAdapter(arrayAdapter);
         timeIntervalSpinner.setAdapter(arrayAdapter);
 
@@ -241,40 +248,47 @@ public class HomeFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (position > 0) { // Check if the user selects an item other than the prompt
                     String selectedInterval = timeIntervalSpinner.getSelectedItem().toString();
-                    switch (position){
-                        case 1 :{
+                    switch (position) {
+                        case 1: {
                             frameCaptureInterval = 1000;
                             break;
-                        }case 2 :{
+                        }
+                        case 2: {
                             frameCaptureInterval = 2000;
                             break;
-                        }case 3 :{
+                        }
+                        case 3: {
                             frameCaptureInterval = 5000;
                             break;
-                        } case 4 :{
+                        }
+                        case 4: {
                             frameCaptureInterval = 10000;
                             break;
-                        } case 5 :{
+                        }
+                        case 5: {
                             frameCaptureInterval = 20000;
                             break;
-                        } case 6 :{
+                        }
+                        case 6: {
                             frameCaptureInterval = 30000;
                             break;
-                        } case 7 :{
+                        }
+                        case 7: {
                             frameCaptureInterval = 60000;
                             break;
-                        }case 8 :{
+                        }
+                        case 8: {
                             frameCaptureInterval = 120000;
                             break;
-                        }case 9 :{
+                        }
+                        case 9: {
                             frameCaptureInterval = 300000;
                             break;
                         }
                     }
                     // Use the selectedInterval for your frame capture logic
                     Toast.makeText(requireContext(), "Selected Time Interval: " + selectedInterval, Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     frameCaptureInterval = 10000;
                     tester.setText("");
                 }
@@ -289,30 +303,8 @@ public class HomeFragment extends Fragment {
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
+                permissioncheck();
                 type = "1";
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (Environment.isExternalStorageManager()) {
-                        showRenameDialog();
-                    } else {
-                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
-
-                    }
-                } else {
-
-                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        // You don't have storage permission, so request it.
-                        ActivityCompat.requestPermissions(requireActivity(),
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-                    }else{
-                        showRenameDialog();
-                    }
-
-                }
             }
 
 
@@ -321,34 +313,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 type = "2";
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (Environment.isExternalStorageManager()) {
-                        showRenameDialog();
-                    } else {
-                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
-
-                    }
-                } else {
-
-                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        // You don't have storage permission, so request it.
-                        ActivityCompat.requestPermissions(requireActivity(),
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-                    }else{
-                        showRenameDialog();
-                    }
-
-                }
+                permissioncheck();
             }
         });
         return view;
     }
+
     private void selectVideo() {
         customtext.setText("Creating PDF");
-        permissioncheck();
-
         dialog.show();
         qualityDialog.dismiss();
         capturingFrames = true;
@@ -363,8 +335,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void multipleSelectVideo() {
-
-        permissioncheck();
 
         customtext.setText("It will take some time \nLet's take a coffee break \n Don't pressed back or exit button");
         dialog.show();
@@ -400,7 +370,7 @@ public class HomeFragment extends Fragment {
 
             }
 //            frames.remove(0);
-            frames.set(0,saveCoverImageafter(frames));
+            frames.set(0, saveCoverImageafter(frames));
             return frames;
         }
 
@@ -418,6 +388,7 @@ public class HomeFragment extends Fragment {
             capturedFrames.clear();
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -437,8 +408,7 @@ public class HomeFragment extends Fragment {
                     new FrameCaptureTask().execute(videoUri);
                 }
             }
-        }
-        else{
+        } else {
             dialog.dismiss();
         }
 
@@ -498,7 +468,7 @@ public class HomeFragment extends Fragment {
 
             Intent intent = new Intent(requireContext(), pdfview.class);
             loadPdfFilesFromExternalStorage();
-            intent.putExtra("link",open.toString());
+            intent.putExtra("link", open.toString());
             startActivity(intent);
 
 
@@ -510,6 +480,7 @@ public class HomeFragment extends Fragment {
             frames.clear(); // Clear the frames list
         }
     }
+
     //quality box
     private void showRenameDialog() {
         qualityDialog.setContentView(R.layout.qualitypdf);
@@ -556,7 +527,7 @@ public class HomeFragment extends Fragment {
                                     mInterstitialAd = null;
                                 }
                             });
-                        }else{
+                        } else {
                             selectVideo();
                         }
                         break;
@@ -585,8 +556,7 @@ public class HomeFragment extends Fragment {
                                 }
 
                             });
-                        }
-                        else {
+                        } else {
                             multipleSelectVideo();
 
                         }
@@ -600,7 +570,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 quality = 100;
-                switch (type){
+                switch (type) {
                     case "1": {
 
                         if (rewardedAd != null) {
@@ -608,26 +578,26 @@ public class HomeFragment extends Fragment {
                             rewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
                                 @Override
                                 public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                                loadreward();
+                                    loadreward();
                                 }
                             });
                             rewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                                 @Override
                                 public void onAdClicked() {
-                                  super.onAdClicked();
+                                    super.onAdClicked();
                                 }
 
                                 @Override
                                 public void onAdDismissedFullScreenContent() {
-                                super.onAdDismissedFullScreenContent();
-                                selectVideo();
-                                loadreward();
+                                    super.onAdDismissedFullScreenContent();
+                                    selectVideo();
+                                    loadreward();
                                 }
 
                                 @Override
                                 public void onAdFailedToShowFullScreenContent(AdError adError) {
-                                   super.onAdFailedToShowFullScreenContent(adError);
-                                  selectVideo();
+                                    super.onAdFailedToShowFullScreenContent(adError);
+                                    selectVideo();
                                     startActivity(new Intent(activityContext, MainActivity.class));
                                     Toast.makeText(activityContext, "Poor Internet Connection", Toast.LENGTH_SHORT).show();
 
@@ -635,17 +605,16 @@ public class HomeFragment extends Fragment {
 
                                 @Override
                                 public void onAdImpression() {
-                                super.onAdImpression();
+                                    super.onAdImpression();
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             selectVideo();
 
                         }
                         break;
                     }
-                    case "2":{
+                    case "2": {
 
                         if (rewardedAd != null) {
                             Activity activityContext = (Activity) requireContext();
@@ -687,7 +656,8 @@ public class HomeFragment extends Fragment {
         });
         qualityDialog.show();
     }
-   //code for cover image
+
+    //code for cover image
     private File saveCoverImage() {
 
         // Load the appropriate cover image based on dimensions
@@ -707,8 +677,9 @@ public class HomeFragment extends Fragment {
         }
         return null;
     }
-//code for change the cover image according to the size of the image second
-    private File saveCoverImageafter( List<File> frames) {
+
+    //code for change the cover image according to the size of the image second
+    private File saveCoverImageafter(List<File> frames) {
         // Load the second frame's dimensions
         int width = 0;
         int height = 0;
@@ -749,9 +720,9 @@ public class HomeFragment extends Fragment {
         return null;
     }
 
-    public  void loadaAd(){
+    public void loadaAd() {
         AdRequest adRequest = new AdRequest.Builder().build();
-        InterstitialAd.load(requireContext(),"ca-app-pub-5242787336207828/8042313994", adRequest,
+        InterstitialAd.load(requireContext(), "ca-app-pub-5242787336207828/8042313994", adRequest,
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
@@ -767,6 +738,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
     public void loadreward() {
         AdRequest Request = new AdRequest.Builder().build();
         RewardedAd.load(requireContext(), "ca-app-pub-5242787336207828/3225935736",
@@ -780,11 +752,10 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onAdLoaded(@NonNull RewardedAd ad) {
-                       rewardedAd = ad;
+                        rewardedAd = ad;
                     }
                 });
     }
-
 
 
     private void loadPdfFilesFromExternalStorage() {
@@ -801,12 +772,13 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-               open = files[0];
+                open = files[0];
             }
         }
     }
-    private void checkupdate(){
-         appUpdateManager = AppUpdateManagerFactory.create(requireContext());
+
+    private void checkupdate() {
+        appUpdateManager = AppUpdateManagerFactory.create(requireContext());
 
 // Returns an intent object that you use to check for an update.
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
@@ -837,6 +809,7 @@ public class HomeFragment extends Fragment {
 
 
     }
+
     InstallStateUpdatedListener listener = state -> {
         // (Optional) Provide a download progress bar.
         if (state.installStatus() == InstallStatus.DOWNLOADING) {
@@ -846,6 +819,7 @@ public class HomeFragment extends Fragment {
         }
         // Log state or install the update.
     };
+
     private void popupSnackbarForCompleteUpdate() {
         View rootView = getView(); // Get the root view of the fragment
 
@@ -881,13 +855,13 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    private  void permissioncheck(){
+    private void permissioncheck() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11 and above
             if (Environment.isExternalStorageManager()) {
                 // External storage permission granted
-
+                showRenameDialog();
 
                 // Check if you have internet permission
                 if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
@@ -902,13 +876,13 @@ public class HomeFragment extends Fragment {
             } else {
                 // External storage permission not granted, request it for Android 11 and above
 
-                showPermissionExplanationDialog("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
+                showPermissionExplanationDialog("Enable File access permission", "Grant file access permission to All Videos to PDF Converter for access videos,image,pdf to convert into PDF files");
 
             }
         } else {
             texthome.setTextSize(20);
             texthome.setText("All Videos To PDF Converter");
-            cardView2.setPadding(3,3,3,3);
+            cardView2.setPadding(3, 3, 3, 3);
             // Android 10 and below
             // Traditional storage permission request
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -916,22 +890,17 @@ public class HomeFragment extends Fragment {
                 // You don't have storage permission, so request it.
                 ActivityCompat.requestPermissions(requireActivity(),
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-            }
-
-            // Check if you have internet permission
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // You don't have internet permission, so request it.
-                ActivityCompat.requestPermissions(requireActivity(),
-                        new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
+            } else {
+                showRenameDialog();
             }
 
             // Add any additional permissions as needed for Android 10 and below
         }
 
     }
+
     private void showPermissionExplanationDialog(String title, String message) {
-    dialognew = new AlertDialog.Builder(requireContext())
+        dialognew = new AlertDialog.Builder(requireContext())
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("Grant access", new DialogInterface.OnClickListener() {
@@ -955,25 +924,6 @@ public class HomeFragment extends Fragment {
                 .create();
         dialognew.show();
 
-    }    private void showPermissionFinal(String title, String message) {
-    dialognew = new AlertDialog.Builder(requireContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("Grant access", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                        intent.setData(Uri.parse("package:" + requireContext().getPackageName()));
-                        startActivityForResult(intent, MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE);
-
-                        // Dismiss the dialog after positive button click
-                        dialognew.dismiss();
-                    }
-                })
-                .create();
-        dialognew.show();
-
     }
-
 
 }

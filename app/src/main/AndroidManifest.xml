@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.mohdmustaqeem3040.allvideostopdfconverter">
+    package="com.allVideosTo.PdfConverter7830">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
@@ -19,13 +19,13 @@
         android:theme="@style/Theme.AllVideosToPDFConverter"
         tools:targetApi="31">
         <activity
-            android:name=".pdfview"
+            android:name="com.allVideosTo.PdfConverter7830.pdfview"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.allVideosTo.PdfConverter7830.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".splash"
+            android:name="com.allVideosTo.PdfConverter7830.splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

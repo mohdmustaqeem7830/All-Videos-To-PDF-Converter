@@ -1,8 +1,5 @@
-package com.mohdmustaqeem3040.allvideostopdfconverter;
+package com.allVideosTo.PdfConverter7830;
 
-//import static androidx.core.graphics.drawable.IconCompat.getResources;
-
-//import static androidx.appcompat.graphics.drawable.DrawableContainerCompat.Api21Impl.getResources;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;

@@ -1,4 +1,4 @@
-package com.mohdmustaqeem3040.allvideostopdfconverter;
+package com.allVideosTo.PdfConverter7830;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -14,8 +14,6 @@ import java.io.File;
 
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-import com.mohdmustaqeem3040.allvideostopdfconverter.R;
-
 import android.widget.TextView;
 
 public class pdfview extends AppCompatActivity {

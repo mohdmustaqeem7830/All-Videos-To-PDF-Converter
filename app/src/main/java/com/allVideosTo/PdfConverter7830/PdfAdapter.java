@@ -1,4 +1,4 @@
-package com.mohdmustaqeem3040.allvideostopdfconverter;
+package com.allVideosTo.PdfConverter7830;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -17,16 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.mohdmustaqeem3040.allvideostopdfconverter.R;
-
 import java.io.File;
 import java.util.ArrayList;
-
 public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.PdfViewHolder> {
     private static ArrayList<File> pdfFiles;
     private Dialog renameDialog;

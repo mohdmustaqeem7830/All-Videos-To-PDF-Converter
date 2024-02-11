@@ -1,4 +1,4 @@
-package com.mohdmustaqeem3040.allvideostopdfconverter;
+package com.allVideosTo.PdfConverter7830;
 
 import android.content.Context;
 import android.graphics.Bitmap;
