@@ -754,19 +754,22 @@ public class HomeFragment extends Fragment {
 
 
     private void loadPdfFilesFromExternalStorage() {
-        // Define the directory where your PDF files are stored in external storage
-        File directory = new File(Environment.getExternalStorageDirectory(), "/android/media/Videos To PDF");
+        // Define the directory where PDFs are saved
+        File directory = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "PDFs");
 
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
 
-            if (files != null) {
+            if (files != null && files.length > 0) {
+                // Sort files by last modified date in descending order
                 Arrays.sort(files, new Comparator<File>() {
+                    @Override
                     public int compare(File f1, File f2) {
-                        return Long.compare(f2.lastModified(), f1.lastModified()); // Sort by most recent first
+                        return Long.compare(f2.lastModified(), f1.lastModified()); // Most recent first
                     }
                 });
 
+                // Assign the most recent file to the 'open' variable
                 open = files[0];
             }
         }

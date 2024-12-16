@@ -48,55 +48,6 @@ public class SavedFragment extends Fragment  implements PdfAdapter.OnItemLongCli
         pdfAdapter.setOnItemLongClickListener(this); // 'this' refers to the fragment
         recyclerView.setAdapter(pdfAdapter);
         loadPdfFilesFromExternalStorage();
-// ad mob
-//        mAdView = view.findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        mAdView.loadAd(adRequest);
-//        mAdView.setAdListener(new AdListener() {
-//
-//            @Override
-//            public void onAdClicked() {
-//                // Code to be executed when the user clicks on an ad.
-//                super.onAdClicked();
-//                mAdView.loadAd(adRequest);
-//            }
-//
-//            @Override
-//            public void onAdClosed() {
-//                // Code to be executed when the user is about to return
-//                // to the app after tapping on an ad.
-//                super.onAdClosed();
-//                mAdView.loadAd(adRequest);
-//            }
-//
-//            @Override
-//            public void onAdFailedToLoad(LoadAdError adError) {
-//                // Code to be executed when an ad request fails.
-//                super.onAdFailedToLoad(adError);
-//                mAdView.loadAd(adRequest);
-//            }
-//
-//            @Override
-//            public void onAdImpression() {
-//                super.onAdImpression();
-//                // Code to be executed when an impression is recorded
-//                // for an ad.
-//            }
-//
-//            @Override
-//            public void onAdLoaded() {
-//                // Code to be executed when an ad finishes loading.
-//                super.onAdLoaded();
-//                mAdView.loadAd(adRequest);
-//            }
-//
-//            @Override
-//            public void onAdOpened() {
-//                // Code to be executed when an ad opens an overlay that
-//                // covers the screen.
-//                super.onAdOpened();
-//            }
-//        });
 
         deleteall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +62,7 @@ public class SavedFragment extends Fragment  implements PdfAdapter.OnItemLongCli
     }
     private void loadPdfFilesFromExternalStorage() {
         // Define the directory where your PDF files are stored in external storage
-        File directory = new File(Environment.getExternalStorageDirectory(), "/android/media/Videos To PDF");
+        File directory = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "PDFs");
 
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
