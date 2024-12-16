@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.allVideosTo.PdfConverter7830'
-    compileSdk 33
+    compileSdk 34
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }

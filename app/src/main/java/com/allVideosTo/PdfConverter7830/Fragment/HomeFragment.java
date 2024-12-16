@@ -211,9 +211,6 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        permissioncheck();
-        //custom Toast code
-
 // Create and show the toast with the custom layout
         LayoutInflater inflat = getLayoutInflater();
         View layout = inflat.inflate(R.layout.customtoast, null);
@@ -372,6 +369,7 @@ public class HomeFragment extends Fragment {
 //            frames.remove(0);
             frames.set(0, saveCoverImageafter(frames));
             return frames;
+
         }
 
         @Override
@@ -400,6 +398,7 @@ public class HomeFragment extends Fragment {
                     Uri[] videoUris = new Uri[clipData.getItemCount()];
                     for (int i = 0; i < clipData.getItemCount(); i++) {
                         videoUris[i] = clipData.getItemAt(i).getUri();
+
                     }
                     new FrameCaptureTask().execute(videoUris);
                 } else {
@@ -461,17 +460,13 @@ public class HomeFragment extends Fragment {
 
     private void generatePDFFromFrames(List<File> frames) throws Exception {
         if (!frames.isEmpty()) {
-
             String pdfFileName = "Videos PDF_" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".pdf";
-            String folderPath = Environment.getExternalStorageDirectory().toString() + "/android/media/Videos To PDF";
-            PdfGenerator.generatePDF(requireContext(), frames, pdfFileName, folderPath);
+            PdfGenerator.generatePDF(requireContext(), frames, pdfFileName);
 
             Intent intent = new Intent(requireContext(), pdfview.class);
             loadPdfFilesFromExternalStorage();
             intent.putExtra("link", open.toString());
             startActivity(intent);
-
-
             text.setText("PDF created successfully check into saved PDF");
             toast.show();
             customtext.setText("");
@@ -859,25 +854,13 @@ public class HomeFragment extends Fragment {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11 and above
-            if (Environment.isExternalStorageManager()) {
-                // External storage permission granted
-                showRenameDialog();
-
+            showRenameDialog();
                 // Check if you have internet permission
                 if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
                         != PackageManager.PERMISSION_GRANTED) {
                     // You don't have internet permission, so request it.
                     ActivityCompat.requestPermissions(requireActivity(),
                             new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
-                }
-
-                // Add any additional permissions as needed for Android 11 and above
-
-            } else {
-                // External storage permission not granted, request it for Android 11 and above
-
-                showPermissionExplanationDialog("Enable File access permission", "Grant file access permission to All Videos to PDF Converter for access videos,image,pdf to convert into PDF files");
-
             }
         } else {
             texthome.setTextSize(20);
@@ -896,33 +879,6 @@ public class HomeFragment extends Fragment {
 
             // Add any additional permissions as needed for Android 10 and below
         }
-
-    }
-
-    private void showPermissionExplanationDialog(String title, String message) {
-        dialognew = new AlertDialog.Builder(requireContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("Grant access", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                        intent.setData(Uri.parse("package:" + requireContext().getPackageName()));
-                        startActivityForResult(intent, MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE);
-
-                        // Dismiss the dialog after positive button click
-                        dialognew.dismiss();
-                    }
-                })
-                .setNegativeButton("Not now", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // User clicked "Not now" button
-                        // You can add any further actions here if needed
-                    }
-                })
-                .create();
-        dialognew.show();
 
     }
 
