@@ -503,24 +503,4 @@ public class EditFragment<BufferedImage> extends Fragment {
         }
     }
 
-    private void showPermissionFinal(String title, String message) {
-        dialognew = new AlertDialog.Builder(requireContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("Grant access", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                        intent.setData(Uri.parse("package:" + requireContext().getPackageName()));
-                        startActivityForResult(intent, MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE);
-
-                        // Dismiss the dialog after positive button click
-                        dialognew.dismiss();
-                    }
-                })
-                .create();
-        dialognew.show();
-
-    }
-
 }

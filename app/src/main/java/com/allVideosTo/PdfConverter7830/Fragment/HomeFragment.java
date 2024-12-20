@@ -21,6 +21,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.text.InputType;
+import android.text.method.DigitsKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,8 @@ import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
@@ -71,6 +75,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -223,15 +228,15 @@ public class HomeFragment extends Fragment {
 
         list = new ArrayList<>();
         list.add("Select Time Interval");
-        list.add("1    Second");
-        list.add("2    Second");
+        list.add("Custom Time");
         list.add("5    Second");
         list.add("10  Second");
         list.add("20  Second");
         list.add("30  Second");
         list.add("1    minute");
-        list.add("2    minute");
         list.add("5    minute");
+        list.add("10    minute");
+
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.textview, list);
         timeIntervalSpinner.setAdapter(arrayAdapter);
@@ -246,40 +251,37 @@ public class HomeFragment extends Fragment {
                 if (position > 0) { // Check if the user selects an item other than the prompt
                     String selectedInterval = timeIntervalSpinner.getSelectedItem().toString();
                     switch (position) {
+
                         case 1: {
-                            frameCaptureInterval = 1000;
+                            customSetTime();
                             break;
                         }
                         case 2: {
-                            frameCaptureInterval = 2000;
-                            break;
-                        }
-                        case 3: {
                             frameCaptureInterval = 5000;
                             break;
                         }
-                        case 4: {
+                        case 3: {
                             frameCaptureInterval = 10000;
                             break;
                         }
-                        case 5: {
+                        case 4: {
                             frameCaptureInterval = 20000;
                             break;
                         }
-                        case 6: {
+                        case 5: {
                             frameCaptureInterval = 30000;
                             break;
                         }
-                        case 7: {
+                        case 6: {
                             frameCaptureInterval = 60000;
                             break;
                         }
-                        case 8: {
-                            frameCaptureInterval = 120000;
+                        case 7: {
+                            frameCaptureInterval = 300000;
                             break;
                         }
-                        case 9: {
-                            frameCaptureInterval = 300000;
+                        case 8: {
+                            frameCaptureInterval = 600000;
                             break;
                         }
                     }
@@ -315,6 +317,7 @@ public class HomeFragment extends Fragment {
         });
         return view;
     }
+
 
     private void selectVideo() {
         customtext.setText("Creating PDF");
@@ -904,6 +907,61 @@ public class HomeFragment extends Fragment {
             // Add any additional permissions as needed for Android 10 and below
         }
 
+    }
+
+
+    private void customSetTime() {
+        Dialog renameDialog = new Dialog(requireContext());
+        renameDialog.setContentView(R.layout.rename);
+        renameDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = renameDialog.getWindow();
+        if (window != null) {
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.copyFrom(window.getAttributes());
+            layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT; // Set width to match parent
+            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT; // Set height as needed
+            window.setAttributes(layoutParams);
+        }
+
+        Button buttonRename = renameDialog.findViewById(R.id.btnrename);
+        Button buttonCancel = renameDialog.findViewById(R.id.btncancel);
+        TextInputEditText newname = renameDialog.findViewById(R.id.renametext);
+        TextInputLayout textInputLayout = renameDialog.findViewById(R.id.edtrename); // Reference to TextInputLayout
+
+        // Set dynamic hint text
+        textInputLayout.setHint("Enter the time in second");
+
+        // Set EditText to accept only numbers
+        newname.setInputType(InputType.TYPE_CLASS_NUMBER); // Only allow numeric input
+        // Optional: Add input filter to ensure no non-numeric input (if needed)
+        newname.setKeyListener(DigitsKeyListener.getInstance("0123456789")); // Allow only digits
+
+        // Set a click listener for the "Cancel" button within the dialog
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                renameDialog.dismiss();
+                resetSpinnerPosition();
+            }
+        });
+
+        buttonRename.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int second = Integer.parseInt(newname.getText().toString());
+                if (second!=0){
+                    frameCaptureInterval = second*1000;
+                    Toast.makeText(requireContext(), "Selected Time Interval: " + newname.getText().toString()+" seconds", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(requireContext(),"Time second can't be zero", Toast.LENGTH_SHORT).show();
+
+                }
+                 renameDialog.dismiss();
+            }
+        });
+
+        renameDialog.show();
     }
 
 }
