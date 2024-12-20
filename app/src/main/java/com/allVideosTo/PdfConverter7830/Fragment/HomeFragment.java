@@ -332,8 +332,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void multipleSelectVideo() {
-
-        customtext.setText("It will take some time \nLet's take a coffee break \n Don't pressed back or exit button");
+        customtext.setText("It will take some time \nLet's take a coffee break \nDon't press back or exit button");
         dialog.show();
         qualityDialog.dismiss();
         capturingFrames = true;
@@ -347,29 +346,31 @@ public class HomeFragment extends Fragment {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-    private class FrameCaptureTask extends AsyncTask<Uri, Void, List<File>> {
+
+    private class FrameCaptureTask extends AsyncTask<File, Void, List<File>> {
         @Override
         protected void onPreExecute() {
             dialog.show(); // Show a progress dialog
         }
 
         @Override
-        protected List<File> doInBackground(Uri... uris) {
+        protected List<File> doInBackground(File... files) {
             List<File> frames = new ArrayList<>();
+            // Process each file and capture frames
             frames.add(saveCoverImage());
-            for (Uri uri : uris) {
-                String videoPath = RealPathUtil.getRealPath(requireContext(), uri);
+            for (File file : files) {
+                String videoPath = file.getAbsolutePath();
                 File cacheDir = requireContext().getCacheDir();
                 if (!cacheDir.exists()) {
                     cacheDir.mkdirs();
                 }
                 frames.addAll(captureFrames(videoPath, cacheDir));
-
             }
-//            frames.remove(0);
-            frames.set(0, saveCoverImageafter(frames));
+            // Update the first frame with another image if required
+            if (!frames.isEmpty()) {
+                frames.set(0, saveCoverImageafter(frames));
+            }
             return frames;
-
         }
 
         @Override
@@ -378,14 +379,14 @@ public class HomeFragment extends Fragment {
                 generatePDFFromFrames(frames);
             } catch (Exception e) {
                 e.printStackTrace();
-                // Handle the exception
             }
             customtext.setText("");
-            dialog.dismiss(); // Dismiss the progress dialog
+            dialog.dismiss();
             resetSpinnerPosition();
             capturedFrames.clear();
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -394,23 +395,43 @@ public class HomeFragment extends Fragment {
             if (data != null) {
                 ClipData clipData = data.getClipData();
                 if (clipData != null) {
-                    // Multiple videos selected
-                    Uri[] videoUris = new Uri[clipData.getItemCount()];
-                    for (int i = 0; i < clipData.getItemCount(); i++) {
-                        videoUris[i] = clipData.getItemAt(i).getUri();
-
-                    }
-                    new FrameCaptureTask().execute(videoUris);
+                    // Handle multiple selection
+                    List<File> files = getFilesFromURIs(clipData);
+                    new FrameCaptureTask().execute(files.toArray(new File[0]));
                 } else {
-                    // Single video selected
+                    // Handle single video
                     Uri videoUri = data.getData();
-                    new FrameCaptureTask().execute(videoUri);
+                    List<File> files = new ArrayList<>();
+                    files.add(new File(RealPathUtil.getRealPath(requireContext(), videoUri)));
+                    new FrameCaptureTask().execute(files.toArray(new File[0]));
                 }
             }
-        } else {
-            dialog.dismiss();
         }
+    }
 
+    private List<File> getFilesFromURIs(ClipData clipData) {
+        List<File> files = new ArrayList<>();
+        for (int i = 0; i < clipData.getItemCount(); i++) {
+            Uri uri = clipData.getItemAt(i).getUri();
+            try {
+                InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
+                File tempFile = new File(requireContext().getFilesDir(), "temp_video_" + i + ".mp4");
+                FileOutputStream outputStream = new FileOutputStream(tempFile);
+
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+
+                inputStream.close();
+                outputStream.close();
+                files.add(tempFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return files;
     }
 
     //new code
