@@ -3,8 +3,6 @@ package com.allVideosTo.PdfConverter7830.Fragment;
 import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -69,13 +67,11 @@ import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.Settings;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -103,19 +99,15 @@ public class HomeFragment extends Fragment {
     String type = "0";
     int quality = 25;
     private Dialog qualityDialog;
-    private AlertDialog dialognew;
     int REQUEST_CODE = 100;
     private MediaMetadataRetriever retriever;
     private Handler handler = new Handler();
     private long frameCaptureInterval = 10000; // 10 seconds in milliseconds
-    private Runnable frameCaptureRunnable;
     private List<File> capturedFrames = new ArrayList<>();
     private int currentFrameIndex = 0;
-    private static final int MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE = 100;
 
     private boolean capturingFrames = true;
     private long duration;
-    private long lastCaptureTime = 0;
     Dialog dialog;
     TextView text, texthome;
     Toast toast;
@@ -127,10 +119,8 @@ public class HomeFragment extends Fragment {
     AppUpdateManager appUpdateManager;
     TextView customtext;
     private RewardedAd rewardedAd;
-    private static final int MYREQUESTCODE = 21;
     File open;
     private InterstitialAd mInterstitialAd;
-    AlertDialog alertDialog;
 
     @SuppressLint("MissingInflatedId")
 
@@ -166,39 +156,32 @@ public class HomeFragment extends Fragment {
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
                 super.onAdClicked();
             }
 
             @Override
             public void onAdClosed() {
-              super.onAdClosed();
+                super.onAdClosed();
             }
 
             @Override
             public void onAdFailedToLoad(LoadAdError adError) {
-                // Code to be executed when an ad request fails.
                 super.onAdFailedToLoad(adError);
                 mAdView.loadAd(adRequest);
             }
 
             @Override
             public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
                 super.onAdLoaded();
             }
 
             @Override
             public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
                 super.onAdOpened();
             }
         });
         selectedVideos = new ArrayList<>();
         retriever = new MediaMetadataRetriever();
-
-        //Dialog box code
         timeIntervalSpinner = view.findViewById(R.id.timeIntervalSpinner);
 
         dialog = new Dialog(requireContext());
@@ -215,7 +198,6 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-// Create and show the toast with the custom layout
         LayoutInflater inflat = getLayoutInflater();
         View layout = inflat.inflate(R.layout.customtoast, null);
 
@@ -400,7 +382,7 @@ public class HomeFragment extends Fragment {
                     // Handle multiple selection
                     List<File> files = getFilesFromURIs(clipData);
                     new FrameCaptureTask().execute(files.toArray(new File[0]));
-                } else {
+                } else if (data.getData() != null) {
                     // Handle single video
                     Uri videoUri = data.getData();
                     List<File> files = new ArrayList<>();
@@ -408,6 +390,8 @@ public class HomeFragment extends Fragment {
                     new FrameCaptureTask().execute(files.toArray(new File[0]));
                 }
             }
+        } else {
+            dialog.dismiss();
         }
     }
 
@@ -881,18 +865,18 @@ public class HomeFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11 and above
             showRenameDialog();
-                // Check if you have internet permission
-                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    // You don't have internet permission, so request it.
-                    ActivityCompat.requestPermissions(requireActivity(),
-                            new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
+            // Check if you have internet permission
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // You don't have internet permission, so request it.
+                ActivityCompat.requestPermissions(requireActivity(),
+                        new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
             }
         } else {
             texthome.setTextSize(20);
             texthome.setText("All Videos To PDF Converter");
             cardView2.setPadding(3, 3, 3, 3);
-                showRenameDialog();
+            showRenameDialog();
         }
 
     }
@@ -930,16 +914,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int second = Integer.parseInt(newname.getText().toString());
-                if (second!=0){
-                    frameCaptureInterval = second*1000;
-                    Toast.makeText(requireContext(), "Selected Time Interval: " + newname.getText().toString()+" seconds", Toast.LENGTH_SHORT).show();
+                if (second != 0) {
+                    frameCaptureInterval = second * 1000;
+                    Toast.makeText(requireContext(), "Selected Time Interval: " + newname.getText().toString() + " seconds", Toast.LENGTH_SHORT).show();
 
-                }else{
-                    Toast.makeText(requireContext(),"Time second can't be zero", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Time second can't be zero", Toast.LENGTH_SHORT).show();
                     resetSpinnerPosition();
 
                 }
-                 renameDialog.dismiss();
+                renameDialog.dismiss();
             }
         });
 
