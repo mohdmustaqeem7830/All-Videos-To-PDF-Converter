@@ -1,7 +1,5 @@
 package com.allVideosTo.PdfConverter7830.Fragment;
-
 import static android.app.Activity.RESULT_OK;
-
 import android.app.Activity;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -11,20 +9,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.allVideosTo.PdfConverter7830.MainActivity;
 import com.allVideosTo.PdfConverter7830.PdfGenerator;
 import com.allVideosTo.PdfConverter7830.R;
@@ -55,7 +50,6 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.itextpdf.text.Image;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -76,7 +70,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -87,7 +80,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
 import android.Manifest;
 
 public class HomeFragment extends Fragment {
@@ -161,7 +153,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onAdClosed() {
-                super.onAdClosed();
+              super.onAdClosed();
             }
 
             @Override
@@ -379,18 +371,16 @@ public class HomeFragment extends Fragment {
             if (data != null) {
                 ClipData clipData = data.getClipData();
                 if (clipData != null) {
-                    // Handle multiple selection
+                    Toast.makeText(requireContext(), "multiple aye hain", Toast.LENGTH_SHORT).show();
                     List<File> files = getFilesFromURIs(clipData);
                     new FrameCaptureTask().execute(files.toArray(new File[0]));
                 } else if (data.getData() != null) {
-                    // Handle single video
-                    Uri videoUri = data.getData();
-                    List<File> files = new ArrayList<>();
-                    files.add(new File(RealPathUtil.getRealPath(requireContext(), videoUri)));
-                    new FrameCaptureTask().execute(files.toArray(new File[0]));
+
+                    Toast.makeText(requireContext(), "Select atleast 2 videos", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                  }
                 }
-            }
-        } else {
+            }else{
             dialog.dismiss();
         }
     }
@@ -865,18 +855,18 @@ public class HomeFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11 and above
             showRenameDialog();
-            // Check if you have internet permission
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // You don't have internet permission, so request it.
-                ActivityCompat.requestPermissions(requireActivity(),
-                        new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
+                // Check if you have internet permission
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    // You don't have internet permission, so request it.
+                    ActivityCompat.requestPermissions(requireActivity(),
+                            new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
             }
         } else {
             texthome.setTextSize(20);
             texthome.setText("All Videos To PDF Converter");
             cardView2.setPadding(3, 3, 3, 3);
-            showRenameDialog();
+                showRenameDialog();
         }
 
     }
@@ -914,16 +904,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int second = Integer.parseInt(newname.getText().toString());
-                if (second != 0) {
-                    frameCaptureInterval = second * 1000;
-                    Toast.makeText(requireContext(), "Selected Time Interval: " + newname.getText().toString() + " seconds", Toast.LENGTH_SHORT).show();
+                if (second!=0){
+                    frameCaptureInterval = second*1000;
+                    Toast.makeText(requireContext(), "Selected Time Interval: " + newname.getText().toString()+" seconds", Toast.LENGTH_SHORT).show();
 
-                } else {
-                    Toast.makeText(requireContext(), "Time second can't be zero", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(requireContext(),"Time second can't be zero", Toast.LENGTH_SHORT).show();
                     resetSpinnerPosition();
 
                 }
-                renameDialog.dismiss();
+                 renameDialog.dismiss();
             }
         });
 
