@@ -69,11 +69,7 @@ public class EditFragment<BufferedImage> extends Fragment {
     private static final int PICK_PDF = 20;
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 233;
     TextView test,textedit;
-    AlertDialog dialognew;
-    private static final int MANAGE_ALL_FILES_ACCESS_PERMISSION_REQUEST_CODE = 100;
-    File open;
     private static final int PICK_IMAGES_REQUEST = 2;
-    private static final int REQUEST_CODE = 100;
     private ArrayList<Uri> selectedPdfs = new ArrayList<>();
     private ArrayList<Uri>  selectedImagesSequence = new ArrayList<>();
     private CardView mergeButton, imagebutton;
@@ -82,7 +78,6 @@ public class EditFragment<BufferedImage> extends Fragment {
     ProgressBar progressBar;
     private AdView mAdView;
     private InterstitialAd mInterstitialAd;
-    private int  numberOfPagesEditText = 5;
 
 
     @SuppressLint("MissingInflatedId")
@@ -173,20 +168,7 @@ public class EditFragment<BufferedImage> extends Fragment {
             }
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    // No need to check permissions for Android 11 and above
-                    handleAdAndPicker();
-                } else {
-                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        // Request storage permission for Android versions below 11
-                        ActivityCompat.requestPermissions(requireActivity(),
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-                    } else {
-                        handleAdAndPicker();
-                    }
-                }
-
+                handleAdAndPicker();
             }
         });
 
@@ -214,19 +196,7 @@ public class EditFragment<BufferedImage> extends Fragment {
             @Override
             public void onClick(View v) {
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        // No need to check permissions for Android 11 and above
-                        handleAdAndPickerImage();
-                    } else {
-                        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            // Request storage permission for Android versions below 11
-                            ActivityCompat.requestPermissions(requireActivity(),
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-                        } else {
-                            handleAdAndPickerImage();
-                        }
-                    }
+                handleAdAndPickerImage();
 
                 }
         });

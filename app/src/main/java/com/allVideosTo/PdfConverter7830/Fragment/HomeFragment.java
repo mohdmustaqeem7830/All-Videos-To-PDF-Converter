@@ -96,7 +96,6 @@ import android.Manifest;
 
 public class HomeFragment extends Fragment {
     private static final int INTERNET_PERMISSION_REQUEST_CODE = 123;
-    private static final int STORAGE_PERMISSION_REQUEST_CODE = 233;
     private static final int REQUEST = 121;
     //    Button selectbtn,multiple;
     CardView select, multiple, cardView2;
@@ -893,18 +892,7 @@ public class HomeFragment extends Fragment {
             texthome.setTextSize(20);
             texthome.setText("All Videos To PDF Converter");
             cardView2.setPadding(3, 3, 3, 3);
-            // Android 10 and below
-            // Traditional storage permission request
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // You don't have storage permission, so request it.
-                ActivityCompat.requestPermissions(requireActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-            } else {
                 showRenameDialog();
-            }
-
-            // Add any additional permissions as needed for Android 10 and below
         }
 
     }
@@ -927,16 +915,9 @@ public class HomeFragment extends Fragment {
         Button buttonCancel = renameDialog.findViewById(R.id.btncancel);
         TextInputEditText newname = renameDialog.findViewById(R.id.renametext);
         TextInputLayout textInputLayout = renameDialog.findViewById(R.id.edtrename); // Reference to TextInputLayout
-
-        // Set dynamic hint text
         textInputLayout.setHint("Enter the time in second");
-
-        // Set EditText to accept only numbers
         newname.setInputType(InputType.TYPE_CLASS_NUMBER); // Only allow numeric input
-        // Optional: Add input filter to ensure no non-numeric input (if needed)
         newname.setKeyListener(DigitsKeyListener.getInstance("0123456789")); // Allow only digits
-
-        // Set a click listener for the "Cancel" button within the dialog
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -955,6 +936,7 @@ public class HomeFragment extends Fragment {
 
                 }else{
                     Toast.makeText(requireContext(),"Time second can't be zero", Toast.LENGTH_SHORT).show();
+                    resetSpinnerPosition();
 
                 }
                  renameDialog.dismiss();
