@@ -151,136 +151,84 @@ public class EditFragment<BufferedImage> extends Fragment {
         dialog.setCancelable(false);
 
         mergeButton.setOnClickListener(new View.OnClickListener() {
+
+            private void handleAdAndPicker() {
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show((Activity) requireContext());
+                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                        @Override
+                        public void onAdClicked() {
+                            super.onAdClicked();
+                        }
+
+                        @Override
+                        public void onAdDismissedFullScreenContent() {
+                            openPdfPicker();
+                            loadaAd();
+                        }
+                    });
+                } else {
+                    openPdfPicker();
+                }
+            }
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (Environment.isExternalStorageManager()) {
-                        if (mInterstitialAd != null) {
-                            mInterstitialAd.show((Activity) requireContext());
-
-                            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                                @Override
-                                public void onAdClicked() {
-                                    super.onAdClicked();
-                                }
-
-                                @Override
-                                public void onAdDismissedFullScreenContent() {
-//                              super.onAdDismissedFullScreenContent();
-                                    openPdfPicker();
-                                    loadaAd();
-                                }
-                            });
-                        }
-                        else {
-                            openPdfPicker();
-                        }
-
-                    } else {
-                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for access videos,image,pdf to convert into PDF files");
-
-                    }
+                    // No need to check permissions for Android 11 and above
+                    handleAdAndPicker();
                 } else {
-
                     if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             != PackageManager.PERMISSION_GRANTED) {
-                        // You don't have storage permission, so request it.
+                        // Request storage permission for Android versions below 11
                         ActivityCompat.requestPermissions(requireActivity(),
                                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-                    }else{
-                        if (mInterstitialAd != null) {
-                            mInterstitialAd.show((Activity) requireContext());
-
-                            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                                @Override
-                                public void onAdClicked() {
-                                    super.onAdClicked();
-                                }
-
-                                @Override
-                                public void onAdDismissedFullScreenContent() {
-//                              super.onAdDismissedFullScreenContent();
-                                    openPdfPicker();
-                                    loadaAd();
-                                }
-                            });
-                        }
-                        else {
-                            openPdfPicker();
-                        }
-
+                    } else {
+                        handleAdAndPicker();
                     }
-
                 }
-
 
             }
         });
 
         imagebutton.setOnClickListener(new View.OnClickListener() {
+            private void handleAdAndPickerImage() {
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show((Activity) requireContext());
+                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                        @Override
+                        public void onAdClicked() {
+                            super.onAdClicked();
+                        }
+
+                        @Override
+                        public void onAdDismissedFullScreenContent() {
+                            openimagepicker();
+                            loadaAd();
+                        }
+                    });
+                } else {
+                    openimagepicker();
+                }
+            }
+
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (Environment.isExternalStorageManager()) {
-                        if (mInterstitialAd != null) {
-                            mInterstitialAd.show((Activity) requireContext());
 
-                            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                                @Override
-                                public void onAdClicked() {
-                                    super.onAdClicked();
-                                }
-
-                                @Override
-                                public void onAdDismissedFullScreenContent() {
-//                              super.onAdDismissedFullScreenContent();
-                                    openimagepicker();
-                                    loadaAd();
-                                }
-                            });
-                        }
-                        else {
-                            openimagepicker();
-                        }
-
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        // No need to check permissions for Android 11 and above
+                        handleAdAndPickerImage();
                     } else {
-                        showPermissionFinal("Enable File access permission","Grant file access permission to All Videos to PDF Converter for opening and saving converted \nVideos to PDF\nMerge PDF\nImage to PDF\nfiles in the storage.");
-
-                    }
-                } else {
-
-                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        // You don't have storage permission, so request it.
-                        ActivityCompat.requestPermissions(requireActivity(),
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
-                    }else{
-                        if (mInterstitialAd != null) {
-                            mInterstitialAd.show((Activity) requireContext());
-
-                            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                                @Override
-                                public void onAdClicked() {
-                                    super.onAdClicked();
-                                }
-
-                                @Override
-                                public void onAdDismissedFullScreenContent() {
-//                              super.onAdDismissedFullScreenContent();
-                                    openimagepicker();
-                                    loadaAd();
-                                }
-                            });
+                        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // Request storage permission for Android versions below 11
+                            ActivityCompat.requestPermissions(requireActivity(),
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
+                        } else {
+                            handleAdAndPickerImage();
                         }
-                        else {
-                               openimagepicker();
-                        }
-
                     }
 
                 }
-
-            }
         });
 
         return view;
@@ -355,7 +303,7 @@ public class EditFragment<BufferedImage> extends Fragment {
 //            splitSelectedPDF(selectedPdfUri);
         }
 
-            dialog.dismiss();
+        dialog.dismiss();
     }
 
 
@@ -366,20 +314,24 @@ public class EditFragment<BufferedImage> extends Fragment {
         }
 
         try {
-            File outputDirectory = new File(Environment.getExternalStorageDirectory(), "/android/media/Videos To PDF");
-            if (!outputDirectory.exists()) {
-                outputDirectory.mkdirs(); // Create the directory if it doesn't exist
+            // Define the folder in the app's private external storage
+            File folder = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "PDFs");
+            if (!folder.exists()) {
+                folder.mkdirs(); // Create the folder if it doesn't exist
             }
 
+            // Generate the file name and full path
             String timestamp = generateTimestamp();
             String pdfFileName = "MergedPDF_" + timestamp + ".pdf";
-            File outputFile = new File(outputDirectory, pdfFileName);
+            File outputFile = new File(folder, pdfFileName);
 
+            // Create the document and file output stream for merging PDFs
             Document document = new Document();
-        FileOutputStream fos = new FileOutputStream(outputFile);
+            FileOutputStream fos = new FileOutputStream(outputFile);
             PdfCopy copy = new PdfCopy(document, fos);
             document.open();
 
+            // Loop through selected PDFs and merge them
             for (Uri pdfUri : selectedPdfs) {
                 PdfReader reader = new PdfReader(requireContext().getContentResolver().openInputStream(pdfUri));
                 int numPages = reader.getNumberOfPages();
@@ -389,9 +341,12 @@ public class EditFragment<BufferedImage> extends Fragment {
                 }
             }
 
+            // Close the document and streams
             document.close();
             fos.close();
             copy.close();
+
+            // Load the PDF files from the new location and clear cache if necessary
             loadPdfFilesFromExternalStorage();
             clearCache();
             dialog.dismiss();
@@ -400,6 +355,7 @@ public class EditFragment<BufferedImage> extends Fragment {
             e.printStackTrace();
         }
     }
+
 
     private String generateTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
@@ -420,7 +376,7 @@ public class EditFragment<BufferedImage> extends Fragment {
 
     private void createPDFFromImages(ArrayList<Uri> selectedImages) {
         try {
-            File outputDirectory = new File(Environment.getExternalStorageDirectory(), "/android/media/Videos To PDF");
+            File outputDirectory = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "PDFs");
             if (!outputDirectory.exists()) {
                 outputDirectory.mkdirs(); // Create the directory if it doesn't exist
             }
@@ -428,6 +384,7 @@ public class EditFragment<BufferedImage> extends Fragment {
             String timestamp = generateTimestamp();
             String pdfFileName = "ImagesToPDF_" + timestamp + ".pdf";
             File outputFile = new File(outputDirectory, pdfFileName);
+
 
 //            Document document = new Document(PageSize.A4, 0, 0, 0, 0);
             Document document = new Document(PageSize.A4, 0, 0, 0, 0);
@@ -524,8 +481,8 @@ public class EditFragment<BufferedImage> extends Fragment {
                 });
     }
     private void loadPdfFilesFromExternalStorage() {
-        // Define the directory where your PDF files are stored in external storage
-        File directory = new File(Environment.getExternalStorageDirectory(), "/android/media/Videos To PDF");
+        // Define the directory where your PDF files are stored in the app's private external storage
+        File directory = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "PDFs");
 
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
@@ -537,18 +494,13 @@ public class EditFragment<BufferedImage> extends Fragment {
                     }
                 });
 
-                open = files[0];
+                // Assuming 'open' is used to store the latest file
+                File open = files[0];
                 Intent intent = new Intent(requireContext(), pdfview.class);
-                intent.putExtra("link",open.toString());
+                intent.putExtra("link", open.toString());
                 startActivity(intent);
             }
         }
-    }
-
-    private void pickPdf() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/pdf");
-        startActivityForResult(intent, PICK_PDF);
     }
 
     private void showPermissionFinal(String title, String message) {
