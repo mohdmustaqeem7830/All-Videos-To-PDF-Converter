@@ -9,18 +9,11 @@
     <dimen name="text_size_large">25sp</dimen>
     <dimen name="text_size_medium">15sp</dimen>
     <dimen name="image_height">80dp</dimen>
-
-        <!-- Layout Dimensions -->
-        <dimen name="layout_padding">10dp</dimen>
-        <dimen name="toolbar_margin">16dp</dimen>
-
-        <!-- Text Sizes -->
-        <dimen name="toolbar_text_size">20sp</dimen>
-        <dimen name="button_text_size">16sp</dimen>
-        <dimen name="empty_text_size">18sp</dimen>
-
-        <!-- Image Dimensions -->
-        <dimen name="empty_image_size">80dp</dimen>
-        <dimen name="image_margin_bottom">16dp</dimen>
-
+    <dimen name="layout_padding">10dp</dimen>
+    <dimen name="toolbar_margin">16dp</dimen>
+    <dimen name="toolbar_text_size">20sp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+    <dimen name="empty_text_size">18sp</dimen>
+    <dimen name="empty_image_size">80dp</dimen>
+    <dimen name="image_margin_bottom">16dp</dimen>
 </resources>

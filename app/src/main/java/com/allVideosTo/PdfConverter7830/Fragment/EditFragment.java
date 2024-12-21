@@ -65,9 +65,9 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EditFragment<BufferedImage> extends Fragment {
+
     private static final int PICK_PDF_REQUEST = 1;
     private static final int PICK_PDF = 20;
-    private static final int STORAGE_PERMISSION_REQUEST_CODE = 233;
     TextView test,textedit;
     private static final int PICK_IMAGES_REQUEST = 2;
     private ArrayList<Uri> selectedPdfs = new ArrayList<>();

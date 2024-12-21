@@ -14,6 +14,8 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
@@ -23,7 +25,6 @@ import android.view.ViewGroup;
 import com.allVideosTo.PdfConverter7830.MainActivity;
 import com.allVideosTo.PdfConverter7830.PdfGenerator;
 import com.allVideosTo.PdfConverter7830.R;
-import com.allVideosTo.PdfConverter7830.RealPathUtil;
 import com.allVideosTo.PdfConverter7830.pdfview;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
@@ -149,29 +150,35 @@ public class HomeFragment extends Fragment {
             @Override
             public void onAdClicked() {
                 super.onAdClicked();
+                // Ad clicked logic (optional)
             }
 
             @Override
             public void onAdClosed() {
-              super.onAdClosed();
+                super.onAdClosed();
+                // Ad closed logic (optional)
             }
 
             @Override
             public void onAdFailedToLoad(LoadAdError adError) {
                 super.onAdFailedToLoad(adError);
-                mAdView.loadAd(adRequest);
+                // Retry loading the ad with a delay to avoid excessive requests
+                new Handler(Looper.getMainLooper()).postDelayed(() -> mAdView.loadAd(adRequest), 3000); // Retry after 3 seconds
             }
 
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
+                // Ad successfully loaded logic (optional)
             }
 
             @Override
             public void onAdOpened() {
                 super.onAdOpened();
+                // Ad opened logic (optional)
             }
         });
+
         selectedVideos = new ArrayList<>();
         retriever = new MediaMetadataRetriever();
         timeIntervalSpinner = view.findViewById(R.id.timeIntervalSpinner);

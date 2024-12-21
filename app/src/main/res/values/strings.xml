@@ -90,4 +90,10 @@ Certainly, the "All Videos to PDF Converter" app seems to be a convenient tool f
     <string name="contact">
         Thanks for offering! If You ever come across any issues or have any suggestions for improvement while
         using the app, I will make sure to reach out.contact us on given gmail, and I appreciate your proactive approach to addressing concerns.\n\n Click here for contact</string>
+    <string name="select_nmultiple_videos">Select\nMultiple Videos</string>
+    <string name="select_nvideo">Select\nVideo</string>
+    <string name="automatically_selected_time_interval_is_10_seconds">Automatically Selected time interval is 10 seconds</string>
+    <string name="all_videos_nto_pdf_n_converter">ALL VIDEOS \nTO PDF\n CONVERTER</string>
+    <string name="merge_pdf">Merge PDF</string>
+    <string name="image_to_pdf">Image to PDF</string>
 </resources>

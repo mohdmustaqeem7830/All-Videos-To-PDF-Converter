@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:padding="@dimen/padding_medium"
-            android:text="ALL VIDEOS \nTO PDF\n CONVERTER"
+            android:text="@string/all_videos_nto_pdf_n_converter"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_large"
@@ -83,7 +83,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Merge PDF"
+                        android:text="@string/merge_pdf"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_medium"
@@ -118,7 +118,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Image to PDF"
+                        android:text="@string/image_to_pdf"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_medium"
