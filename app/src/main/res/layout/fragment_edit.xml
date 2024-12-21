@@ -1,163 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context="com.allVideosTo.PdfConverter7830.Fragment.EditFragment">
+    tools:context="com.allVideosTo.PdfConverter7830.Fragment.HomeFragment">
 
+    <!-- Responsive CardView -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
-        android:layout_width="match_parent"
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_medium"
         android:elevation="7dp"
-        app:cardCornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:cardCornerRadius="@dimen/card_corner_radius"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-
+            android:id="@+id/texthome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:padding="10dp"
+            android:padding="@dimen/padding_medium"
             android:text="ALL VIDEOS \nTO PDF\n CONVERTER"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:id="@+id/textedit"
-            android:textSize="30sp"
+            android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
-
     </androidx.cardview.widget.CardView>
 
+    <!-- LinearLayout for main content -->
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@+id/cardView2"
-        android:layout_width="match_parent"
+        android:id="@+id/mainelement"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:id="@+id/layout1"
-        android:orientation="horizontal"
-        tools:ignore="MissingConstraints">
+        android:layout_marginTop="@dimen/margin_small"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="20dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="7dp"
-            app:cardBackgroundColor="@color/white"
-            android:id="@+id/merge"
-            tools:ignore="MissingConstraints">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/layer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/margin_small">
 
-                <ImageView
+            <!-- Merge PDF -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/merge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="7dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/pdtopd" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_small">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/image_height"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:background="@drawable/pdtopd" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Select PDF\nFor Merge"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Image to PDF -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imageButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="7dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_small">
 
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Select PDF\nFor Merge"
-                    android:textAlignment="center" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/image_height"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:background="@drawable/imagetopd" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:cardCornerRadius="16dp"
-            android:layout_margin="20dp"
-            app:cardElevation="7dp"
-            app:cardBackgroundColor="@color/white"
-            android:id="@+id/imageButton"
-            tools:ignore="MissingConstraints">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/imagetopd" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Select \nImages For PDF"
-                    />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Select \nImages For PDF"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
     </LinearLayout>
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/test"
-        />
-
+    <!-- ProgressBar -->
     <ProgressBar
         android:id="@+id/progressloading"
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:visibility="gone"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- AdView -->
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:adSize="MEDIUM_RECTANGLE"
-        app:adUnitId="ca-app-pub-5242787336207828/2255634846"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
-
-
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:adSize="MEDIUM_RECTANGLE"
+        app:adUnitId="ca-app-pub-5242787336207828/2255634846" />
 </androidx.constraintlayout.widget.ConstraintLayout>
