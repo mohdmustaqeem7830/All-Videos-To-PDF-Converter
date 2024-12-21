@@ -319,6 +319,7 @@ public class EditFragment<BufferedImage> extends Fragment {
             loadPdfFilesFromExternalStorage();
             clearCache();
             dialog.dismiss();
+            selectedPdfs.clear();
         } catch (IOException | DocumentException e) {
             Toast.makeText(requireContext(), "Error merging PDFs.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -403,6 +404,7 @@ public class EditFragment<BufferedImage> extends Fragment {
                         document.newPage();
                         document.add(image);
                         imageStream.close();
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -414,6 +416,7 @@ public class EditFragment<BufferedImage> extends Fragment {
             dialog.dismiss();
             loadPdfFilesFromExternalStorage();
             clearCache();
+            selectedImages.clear();
         } catch (IOException | DocumentException e) {
             test.setText(e.getMessage().toString());
             e.printStackTrace();
