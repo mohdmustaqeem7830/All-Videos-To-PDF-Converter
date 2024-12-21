@@ -43,6 +43,7 @@
         android:layout_marginTop="@dimen/margin_small"
         android:gravity="center"
         android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/margin_large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -60,7 +61,7 @@
                 android:id="@+id/merge"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
+                android:layout_margin="@dimen/margin_medium"
                 android:layout_weight="1"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/card_corner_radius"
@@ -82,7 +83,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select PDF\nFor Merge"
+                        android:text="Merge PDF"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_medium"
@@ -95,7 +96,7 @@
                 android:id="@+id/imageButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
+                android:layout_margin="@dimen/margin_medium"
                 android:layout_weight="1"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="@dimen/card_corner_radius"
@@ -117,7 +118,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select \nImages For PDF"
+                        android:text="Image to PDF"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_medium"

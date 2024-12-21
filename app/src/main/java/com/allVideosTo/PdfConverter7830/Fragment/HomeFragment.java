@@ -371,7 +371,6 @@ public class HomeFragment extends Fragment {
             if (data != null) {
                 ClipData clipData = data.getClipData();
                 if (clipData != null) {
-                    Toast.makeText(requireContext(), "multiple aye hain", Toast.LENGTH_SHORT).show();
                     List<File> files = getFilesFromURIs(clipData);
                     new FrameCaptureTask().execute(files.toArray(new File[0]));
                 } else if (data.getData() != null) {
@@ -387,28 +386,37 @@ public class HomeFragment extends Fragment {
 
     private List<File> getFilesFromURIs(ClipData clipData) {
         List<File> files = new ArrayList<>();
+
+        // Step 1: Clean up existing temporary files
+        File tempDir = requireContext().getFilesDir();
+        File[] tempFiles = tempDir.listFiles((dir, name) -> name.startsWith("temp_video_") && name.endsWith(".mp4"));
+        if (tempFiles != null) {
+            for (File tempFile : tempFiles) {
+               tempFile.delete();
+            }
+        }
+
+        // Step 2: Process new URIs and create new temporary files
         for (int i = 0; i < clipData.getItemCount(); i++) {
             Uri uri = clipData.getItemAt(i).getUri();
-            try {
-                InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
-                File tempFile = new File(requireContext().getFilesDir(), "temp_video_" + i + ".mp4");
-                FileOutputStream outputStream = new FileOutputStream(tempFile);
+            try (InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
+                 FileOutputStream outputStream = new FileOutputStream(new File(tempDir, "temp_video_" + i + ".mp4"))) {
 
                 byte[] buffer = new byte[1024];
                 int length;
                 while ((length = inputStream.read(buffer)) > 0) {
                     outputStream.write(buffer, 0, length);
                 }
-                inputStream.close();
-                outputStream.close();
+
+                File tempFile = new File(tempDir, "temp_video_" + i + ".mp4");
                 files.add(tempFile);
-                tempFile.deleteOnExit();
-                tempFile.delete();
 
             } catch (IOException e) {
                 e.printStackTrace();
+                Toast.makeText(requireContext(), "Error processing file: " + uri.toString(), Toast.LENGTH_SHORT).show();
             }
         }
+
         return files;
     }
 
