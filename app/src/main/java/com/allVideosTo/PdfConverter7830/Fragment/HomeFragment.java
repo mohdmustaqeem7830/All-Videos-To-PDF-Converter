@@ -399,10 +399,12 @@ public class HomeFragment extends Fragment {
                 while ((length = inputStream.read(buffer)) > 0) {
                     outputStream.write(buffer, 0, length);
                 }
-
                 inputStream.close();
                 outputStream.close();
                 files.add(tempFile);
+                tempFile.deleteOnExit();
+                tempFile.delete();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

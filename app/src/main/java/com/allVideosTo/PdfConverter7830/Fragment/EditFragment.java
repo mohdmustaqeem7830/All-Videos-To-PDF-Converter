@@ -86,8 +86,7 @@ public class EditFragment<BufferedImage> extends Fragment {
         View view = inflater.inflate(R.layout.fragment_edit, container, false);
         mergeButton = view.findViewById(R.id.merge);
         imagebutton = view.findViewById(R.id.imageButton);
-        test = view.findViewById(R.id.test);
-        textedit = view.findViewById(R.id.textedit);
+
         //ad mob
         loadaAd();
 
