@@ -110,7 +110,6 @@ public class HomeFragment extends Fragment {
     ArrayList<String> list;
     private AdView mAdView;
     AppUpdateManager appUpdateManager;
-    TextView customtext;
     private RewardedAd rewardedAd;
     File open;
     private InterstitialAd mInterstitialAd;
@@ -186,7 +185,6 @@ public class HomeFragment extends Fragment {
         dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.progressbar);
         progressBar = dialog.findViewById(R.id.progressloading);
-        customtext = dialog.findViewById(R.id.custometext);
         dialog.setCancelable(false);
         try {
 
@@ -300,7 +298,6 @@ public class HomeFragment extends Fragment {
 
 
     private void selectVideo() {
-        customtext.setText("Creating PDF");
         dialog.show();
         qualityDialog.dismiss();
         capturingFrames = true;
@@ -315,7 +312,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void multipleSelectVideo() {
-        customtext.setText("It will take some time \nLet's take a coffee break \nDon't press back or exit button");
         dialog.show();
         qualityDialog.dismiss();
         capturingFrames = true;
@@ -363,7 +359,6 @@ public class HomeFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            customtext.setText("");
             dialog.dismiss();
             resetSpinnerPosition();
             capturedFrames.clear();
@@ -483,7 +478,6 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
             text.setText("PDF created successfully check into saved PDF");
             toast.show();
-            customtext.setText("");
             dialog.dismiss();
             resetSpinnerPosition();
             frames.clear(); // Clear the frames list
