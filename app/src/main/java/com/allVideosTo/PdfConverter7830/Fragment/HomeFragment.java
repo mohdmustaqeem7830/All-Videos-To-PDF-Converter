@@ -903,6 +903,7 @@ public class HomeFragment extends Fragment {
         textInputLayout.setHint("Enter the time in second");
         newname.setInputType(InputType.TYPE_CLASS_NUMBER); // Only allow numeric input
         newname.setKeyListener(DigitsKeyListener.getInstance("0123456789")); // Allow only digits
+        buttonRename.setText("Set");
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

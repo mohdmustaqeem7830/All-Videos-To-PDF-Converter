@@ -134,19 +134,57 @@ public class MainActivity extends AppCompatActivity {
 
 
     private Handler handler = new Handler();
+    private AlertDialog internetDialog;  // Declare the dialog globally
+    private boolean isInternetConnected = false; // Track internet connection status
+
     private Runnable periodicTask = new Runnable() {
         @Override
         public void run() {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
             if (networkInfo == null || !networkInfo.isConnected()) {
-                // No internet connection, show a message or close the app.
-                Toast.makeText(MainActivity.this, "Please open the internet connection", Toast.LENGTH_SHORT).show();
-                finish(); // This will close the app
+                // No internet connection, keep the dialog visible without the "Done" button
+                if (internetDialog == null || !internetDialog.isShowing()) {
+                    showInternetDialog(false);  // Show the dialog without "Done"
+                }
+            } else {
+                // Internet is available, show the dialog with "Done" button if it's not already showing
+                if (!isInternetConnected) {
+                    isInternetConnected = true; // Mark the internet as connected
+                    if (internetDialog != null && internetDialog.isShowing()) {
+                        // Change the dialog to show the "Done" button
+                        internetDialog.dismiss();  // Dismiss the current dialog
+                        showInternetDialog(true);  // Show dialog with "Done"
+                    }
+                }
             }
+
             // Schedule the task to run again after 3 seconds
             handler.postDelayed(this, 3000); // 3000 milliseconds = 3 seconds
         }
     };
+
+    // Method to show the internet connection dialog
+    private void showInternetDialog(boolean showDoneButton) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("No Internet Connection")
+                .setMessage("Please open the internet connection.")
+                .setCancelable(false); // Prevent the dialog from being dismissed by tapping outside
+
+        // Only show the "Done" button when internet is restored
+        if (showDoneButton) {
+            builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss(); // Dismiss the dialog when the user clicks "Done"
+                }
+            });
+        }
+
+        internetDialog = builder.create();
+        internetDialog.show();
+    }
+
 
 }

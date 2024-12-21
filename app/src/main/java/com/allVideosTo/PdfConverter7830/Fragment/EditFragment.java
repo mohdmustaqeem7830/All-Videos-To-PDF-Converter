@@ -205,7 +205,6 @@ public class EditFragment<BufferedImage> extends Fragment {
 
 
     private void openPdfPicker() {
-
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("application/pdf");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
