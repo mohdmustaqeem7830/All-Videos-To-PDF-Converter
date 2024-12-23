@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import com.mohdmustaqeem3040.allvideostopdfconverter.MainActivity;
 import com.mohdmustaqeem3040.allvideostopdfconverter.PdfGenerator;
 import com.mohdmustaqeem3040.allvideostopdfconverter.R;
+import com.mohdmustaqeem3040.allvideostopdfconverter.RealPathUtil;
 import com.mohdmustaqeem3040.allvideostopdfconverter.pdfview;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
@@ -93,6 +94,7 @@ public class HomeFragment extends Fragment {
     int quality = 25;
     private Dialog qualityDialog;
     int REQUEST_CODE = 100;
+    int SINGLE_REQUEST_CODE = 102;
     private MediaMetadataRetriever retriever;
     private Handler handler = new Handler();
     private long frameCaptureInterval = 10000; // 10 seconds in milliseconds
@@ -376,15 +378,26 @@ public class HomeFragment extends Fragment {
                     List<File> files = getFilesFromURIs(clipData);
                     new FrameCaptureTask().execute(files.toArray(new File[0]));
                 } else if (data.getData() != null) {
-
                     Toast.makeText(requireContext(), "Select atleast 2 videos", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                  }
                 }
             }else{
-            dialog.dismiss();
+                dialog.dismiss();
+            }
+        }
+        if (requestCode==SINGLE_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                Uri videoUri = data.getData();
+                List<File> files = new ArrayList<>();
+                files.add(new File(RealPathUtil.getRealPath(requireContext(), videoUri)));
+                new FrameCaptureTask().execute(files.toArray(new File[0]));
+            }else{
+                dialog.dismiss();
+            }
         }
     }
+
+
 
     private List<File> getFilesFromURIs(ClipData clipData) {
         List<File> files = new ArrayList<>();
