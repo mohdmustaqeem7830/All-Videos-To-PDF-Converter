@@ -1,4 +1,4 @@
-package com.allVideosTo.PdfConverter7830;
+package com.mohdmustaqeem3040.allvideostopdfconverter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

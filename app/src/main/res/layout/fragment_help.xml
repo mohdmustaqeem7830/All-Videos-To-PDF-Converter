@@ -5,7 +5,7 @@
     android:background="@color/black"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.allVideosTo.PdfConverter7830.Fragment.HelpFragment">
+    tools:context="com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.HelpFragment">
 
     <ScrollView
         android:layout_width="match_parent"

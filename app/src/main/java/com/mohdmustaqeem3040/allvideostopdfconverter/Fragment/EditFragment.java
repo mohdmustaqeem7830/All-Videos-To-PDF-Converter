@@ -1,13 +1,10 @@
-package com.allVideosTo.PdfConverter7830.Fragment;
+package com.mohdmustaqeem3040.allvideostopdfconverter.Fragment;
 
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,10 +13,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.Manifest;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +26,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.allVideosTo.PdfConverter7830.R;
-import com.allVideosTo.PdfConverter7830.pdfview;
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
+import com.mohdmustaqeem3040.allvideostopdfconverter.pdfview;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;

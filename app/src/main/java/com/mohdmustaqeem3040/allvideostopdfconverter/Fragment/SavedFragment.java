@@ -1,4 +1,4 @@
-package com.allVideosTo.PdfConverter7830.Fragment;
+package com.mohdmustaqeem3040.allvideostopdfconverter.Fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.allVideosTo.PdfConverter7830.PdfAdapter;
-import com.allVideosTo.PdfConverter7830.R;
-import com.allVideosTo.PdfConverter7830.pdfview;
+import com.mohdmustaqeem3040.allvideostopdfconverter.PdfAdapter;
+import com.mohdmustaqeem3040.allvideostopdfconverter.R;
+import com.mohdmustaqeem3040.allvideostopdfconverter.pdfview;
 import com.google.android.gms.ads.AdView;
 
 import android.os.Environment;

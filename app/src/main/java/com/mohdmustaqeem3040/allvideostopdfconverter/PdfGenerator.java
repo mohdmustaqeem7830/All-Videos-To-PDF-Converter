@@ -1,4 +1,4 @@
-package com.allVideosTo.PdfConverter7830;
+package com.mohdmustaqeem3040.allvideostopdfconverter;
 
 
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;

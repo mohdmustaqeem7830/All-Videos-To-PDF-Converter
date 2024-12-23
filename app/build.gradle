@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.allVideosTo.PdfConverter7830'
+    namespace 'com.mohdmustaqeem3040.allvideostopdfconverter'
     compileSdk 34
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'

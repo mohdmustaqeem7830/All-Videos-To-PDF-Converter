@@ -1,4 +1,4 @@
-package com.allVideosTo.PdfConverter7830;
+package com.mohdmustaqeem3040.allvideostopdfconverter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +15,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
-import com.allVideosTo.PdfConverter7830.Fragment.EditFragment;
-import com.allVideosTo.PdfConverter7830.Fragment.HelpFragment;
-import com.allVideosTo.PdfConverter7830.Fragment.HomeFragment;
-import com.allVideosTo.PdfConverter7830.Fragment.SavedFragment;
+import com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.EditFragment;
+import com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.HelpFragment;
+import com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.HomeFragment;
+import com.mohdmustaqeem3040.allvideostopdfconverter.Fragment.SavedFragment;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
