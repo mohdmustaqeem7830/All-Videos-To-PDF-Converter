@@ -59,7 +59,7 @@
                     android:textColor="@color/black"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="It will take some time Let's take a coffee break Don't press back or exit button"
+                    android:text="@string/it_will_take_some_time_let_s_take_a_coffee_break_don_t_press_back_or_exit_button"
                     android:textSize="18sp"
                     />
 
@@ -77,11 +77,6 @@
                     app:lottie_rawRes="@raw/conversion"
                     tools:ignore="MissingConstraints,NotSibling" />
             </LinearLayout>
-
-
-
         </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,9 +28,7 @@ import me.ibrahimsn.lib.OnItemSelectedListener;
 import me.ibrahimsn.lib.SmoothBottomBar;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REQUEST =121 ;
     int i = 0;
-    AlertDialog.Builder builder;
     SmoothBottomBar bottomBar;
 
     @Override
@@ -54,34 +52,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //code internet connection
-        // Start the periodic task
         handler.post(periodicTask);
 
         bottomBar = findViewById(R.id.bottomBar);
 
-        //by default smoothbar at home
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        HomeFragment homeFragment = (HomeFragment) fragmentManager.findFragmentByTag("HomeFragment");
-//        if (homeFragment == null) {
-//            // If not added, add it
-//            homeFragment = new HomeFragment();
-//            fragmentTransaction.replace(R.id.fragmentContainer, homeFragment, "HomeFragment");
-//        }
-//        fragmentTransaction.commit();
         bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public boolean onItemSelect(int i) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                // Use findFragmentByTag to check if the fragment is already added
                 HomeFragment homeFragment = (HomeFragment) fragmentManager.findFragmentByTag("HomeFragment");
 
 
                 if (i == 0) {
-                    // If not added, add HomeFragment
                     if (homeFragment == null) {
                         homeFragment = new HomeFragment();
                         fragmentTransaction.replace(R.id.fragmentContainer, homeFragment, "HomeFragment");
