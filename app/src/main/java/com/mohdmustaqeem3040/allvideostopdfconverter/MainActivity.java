@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -126,19 +127,14 @@ public class MainActivity extends AppCompatActivity {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
             if (networkInfo == null || !networkInfo.isConnected()) {
-                // No internet connection, keep the dialog visible without the "Done" button
+                // No internet connection, keep the dialog visible with the "Restart Application" button
                 if (internetDialog == null || !internetDialog.isShowing()) {
-                    showInternetDialog(false);  // Show the dialog without "Done"
+                    showInternetDialog();  // Show the dialog with "Restart Application" button
                 }
             } else {
-                // Internet is available, show the dialog with "Done" button if it's not already showing
-                if (!isInternetConnected) {
-                    isInternetConnected = true; // Mark the internet as connected
-                    if (internetDialog != null && internetDialog.isShowing()) {
-                        // Change the dialog to show the "Done" button
-                        internetDialog.dismiss();  // Dismiss the current dialog
-                        showInternetDialog(true);  // Show dialog with "Done"
-                    }
+                // Internet is available, dismiss the dialog if it's showing
+                if (internetDialog != null && internetDialog.isShowing()) {
+                    internetDialog.dismiss();  // Dismiss the current dialog
                 }
             }
 
@@ -148,25 +144,41 @@ public class MainActivity extends AppCompatActivity {
     };
 
     // Method to show the internet connection dialog
-    private void showInternetDialog(boolean showDoneButton) {
+    private void showInternetDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("No Internet Connection")
                 .setMessage("Please open the internet connection.")
-                .setCancelable(false); // Prevent the dialog from being dismissed by tapping outside
-
-        // Only show the "Done" button when internet is restored
-        if (showDoneButton) {
-            builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss(); // Dismiss the dialog when the user clicks "Done"
-                }
-            });
-        }
+                .setCancelable(false)
+                .setPositiveButton("Restart Application", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        restartApplication(); // Restart the application
+                    }
+                });
 
         internetDialog = builder.create();
         internetDialog.show();
     }
+
+    private void restartApplication() {
+        try {
+            // Get the launch intent for the application
+            Intent intent = getBaseContext().getPackageManager()
+                    .getLaunchIntentForPackage(getBaseContext().getPackageName());
+
+            if (intent != null) {
+                // Add flags to clear the existing task and start a new one
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+            // Exit the current process cleanly
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

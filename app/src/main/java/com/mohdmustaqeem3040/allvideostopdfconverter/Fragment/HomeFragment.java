@@ -310,12 +310,12 @@ public class HomeFragment extends Fragment {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("video/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, REQUEST_CODE);
+        startActivityForResult(intent, SINGLE_REQUEST_CODE);
     }
 
     private void multipleSelectVideo() {
-        dialog.show();
         qualityDialog.dismiss();
+        dialog.show();
         capturingFrames = true;
         capturedFrames.clear();
         timeIntervalSpinner.getFirstVisiblePosition();
@@ -373,14 +373,15 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             if (data != null) {
-                ClipData clipData = data.getClipData();
-                if (clipData != null) {
-                    List<File> files = getFilesFromURIs(clipData);
-                    new FrameCaptureTask().execute(files.toArray(new File[0]));
-                } else if (data.getData() != null) {
-                    Toast.makeText(requireContext(), "Select atleast 2 videos", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
+//                ClipData clipData = data.getClipData();
+//                if (clipData != null) {
+//                    List<File> files = getFilesFromURIs(clipData);
+////                    new FrameCaptureTask().execute(files.toArray(new File[0]));
+//                    Toast.makeText(requireContext(), "ab theek h ", Toast.LENGTH_SHORT).show();
+//                } else if (data.getData() != null) {
+//                    Toast.makeText(requireContext(), "Select atleast 2 videos", Toast.LENGTH_SHORT).show();
+//                    dialog.dismiss();
+//                }
             }else{
                 dialog.dismiss();
             }
