@@ -291,8 +291,8 @@ public class HomeFragment extends Fragment {
         multiple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = "2";
                 permissioncheck();
+                type = "2";
             }
         });
         return view;
@@ -868,6 +868,8 @@ public class HomeFragment extends Fragment {
                 .addOnSuccessListener(appUpdateInfo -> {
                     // If the update is downloaded but not installed,
                     // notify the user to complete the update.
+
+
                     if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
                         popupSnackbarForCompleteUpdate();
                     }
@@ -875,17 +877,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void permissioncheck() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11 and above
             showRenameDialog();
-                // Check if you have internet permission
-                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    // You don't have internet permission, so request it.
-                    ActivityCompat.requestPermissions(requireActivity(),
-                            new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
-            }
         } else {
             texthome.setTextSize(20);
             texthome.setText("All Videos To PDF Converter");
