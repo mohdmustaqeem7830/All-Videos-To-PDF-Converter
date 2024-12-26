@@ -299,33 +299,32 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void selectVideo() {
-        dialog.show();
-        qualityDialog.dismiss();
-        capturingFrames = true;
-        capturedFrames.clear();
-        timeIntervalSpinner.getFirstVisiblePosition();
+        private void selectVideo() {
+            dialog.show();
+            qualityDialog.dismiss();
+            capturingFrames = true;
+            capturedFrames.clear();
+            timeIntervalSpinner.getFirstVisiblePosition();
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("video/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, SINGLE_REQUEST_CODE);
+        }
 
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("video/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, SINGLE_REQUEST_CODE);
-    }
+        private void multipleSelectVideo() {
+            qualityDialog.dismiss();
+            dialog.show();
+            capturingFrames = true;
+            capturedFrames.clear();
+            timeIntervalSpinner.getFirstVisiblePosition();
 
-    private void multipleSelectVideo() {
-        qualityDialog.dismiss();
-        dialog.show();
-        capturingFrames = true;
-        capturedFrames.clear();
-        timeIntervalSpinner.getFirstVisiblePosition();
-
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("video/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // Enable multiple selection
-        startActivityForResult(intent, REQUEST_CODE);
-    }
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("video/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // Enable multiple selection
+            startActivityForResult(intent, REQUEST_CODE);
+        }
 
 
     private class FrameCaptureTask extends AsyncTask<File, Void, List<File>> {
@@ -371,32 +370,47 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-//                ClipData clipData = data.getClipData();
-//                if (clipData != null) {
-//                    List<File> files = getFilesFromURIs(clipData);
-////                    new FrameCaptureTask().execute(files.toArray(new File[0]));
-//                    Toast.makeText(requireContext(), "ab theek h ", Toast.LENGTH_SHORT).show();
-//                } else if (data.getData() != null) {
-//                    Toast.makeText(requireContext(), "Select atleast 2 videos", Toast.LENGTH_SHORT).show();
-//                    dialog.dismiss();
-//                }
-            }else{
-                dialog.dismiss();
-            }
+
+        if (resultCode != RESULT_OK || data == null) {
+            if (dialog != null) dialog.dismiss();
+            return;
         }
-        if (requestCode==SINGLE_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null && data.getData() != null) {
-                Uri videoUri = data.getData();
-                List<File> files = new ArrayList<>();
-                files.add(new File(RealPathUtil.getRealPath(requireContext(), videoUri)));
-                new FrameCaptureTask().execute(files.toArray(new File[0]));
-            }else{
-                dialog.dismiss();
-            }
+
+        if (requestCode == SINGLE_REQUEST_CODE) {
+            handleSingleRequest(data);
+        } else if (requestCode == REQUEST_CODE) {
+            handleMultipleRequests(data);
         }
     }
+
+    private void handleSingleRequest(Intent data) {
+        Uri videoUri = data.getData();
+        if (videoUri != null) {
+            String realPath = RealPathUtil.getRealPath(requireContext(), videoUri);
+            if (realPath != null) {
+                List<File> files = new ArrayList<>();
+                files.add(new File(realPath));
+                new FrameCaptureTask().execute(files.toArray(new File[0]));
+            } else {
+                Toast.makeText(requireContext(), "Unable to retrieve video file", Toast.LENGTH_SHORT).show();
+                if (dialog != null) dialog.dismiss();
+            }
+        } else {
+            if (dialog != null) dialog.dismiss();
+        }
+    }
+
+    private void handleMultipleRequests(Intent data) {
+        ClipData clipData = data.getClipData();
+        if (clipData != null && clipData.getItemCount() > 1) {
+            List<File> files = getFilesFromURIs(clipData);
+            new FrameCaptureTask().execute(files.toArray(new File[0]));
+        } else {
+            Toast.makeText(requireContext(), "Please select at least 2 videos", Toast.LENGTH_SHORT).show();
+            if (dialog != null) dialog.dismiss();
+        }
+    }
+
 
 
 
